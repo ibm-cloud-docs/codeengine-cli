@@ -1,0 +1,10 @@
+{:navgroup: .navgroup}
+{:topicgroup: .topicgroup} 
+
+{: .toc subcollection="codeengine-cli" audience="compute" arm="1680717" href="/docs/codeengine-cli/codeengine-cli-cli-reference" path="codeengine-cli"}
+IBM Cloud Code Engine CLI
+
+    {: .navgroup id="reference"}
+    cli-reference.md 
+    {: .navgroup-end}
+    
