@@ -5,6 +5,6 @@
 IBM Cloud Code Engine CLI
 
     {: .navgroup id="reference"}
-    cli-reference.md 
+    cmd_defs.md 
     {: .navgroup-end}
     
