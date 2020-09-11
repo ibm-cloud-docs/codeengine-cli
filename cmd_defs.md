@@ -291,7 +291,21 @@ Target a project for context.
 </dd>
 </dl>  
   
-{[cli-project-select-example.md]}  
+**Example**
+
+```
+ibmcloud ce project select --name myproject
+```
+{: pre}
+
+**Example output**
+
+```
+Targeting project 'myproject'...
+OK
+```
+{: screen}
+  
   
 ### `ibmcloud ce project current`  
 {: #cli-project-current}  
@@ -2776,8 +2790,8 @@ ibmcloud ce buildrun delete --name mybuildrun
 **Example output**
 
 ```
-Are you sure you want to delete buildrun mybuildrun? [y/N]> y
-Deleting build 'mybuildrun'...
+Are you sure you want to delete build run mybuildrun? [y/N]> y
+Deleting build run 'mybuildrun'...
 OK
 ```
 {: screen}
