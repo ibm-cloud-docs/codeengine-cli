@@ -2,7 +2,7 @@
 
 copyright:
   years: 2021
-lastupdated: "2021-03-03"
+lastupdated: "2021-03-09"
 
 keywords: cli for code engine, command-line interface for code engine, cli commands for code engine, reference for code engine cli, ibmcloud ce, ibmcloud codeengine
 
@@ -119,9 +119,7 @@ To run {{site.data.keyword.codeenginefull_notm}} commands, use `ibmcloud code-en
 Use `project` commands to create, list, delete, and select a project as the current context.
 {: shortdesc}
 
-A project is a grouping of {{site.data.keyword.codeengineshort}} entities such as applications, jobs, and builds. Projects are used to manage resources and provide access to its entities. A project provides the following items:<ul><li>Provides a unique namespace for entity names.</li><li> Manages access to project resources (inbound access).</li><li> Manages access to backing services, registries, and repositories (outbound access).</li><li> Has an automatically generated certificate for Transport Layer Service (TLS).</li></ul>
-
-A project is based on a Kubernetes namespace. The name of your project must be unique within your {{site.data.keyword.cloud}} resource group, user account, and region. 
+A project is a grouping of {{site.data.keyword.codeengineshort}} entities such as applications, jobs, and builds. A project is based on a Kubernetes namespace. The name of your project must be unique within your {{site.data.keyword.cloud}} resource group, user account, and region. Projects are used to manage resources and provide access to its entities. A project provides the following items:<ul><li>Provides a unique namespace for entity names.</li><li> Manages access to project resources (inbound access).</li><li> Manages access to backing services, registries, and repositories (outbound access).</li><li> Has an automatically generated certificate for Transport Layer Service (TLS).</li></ul>
 
 You can use either `project` or `proj` in your `project` commands. To see CLI help for the `project` commands, run `ibmcloud ce proj -h`.
 {: tip}  
@@ -174,7 +172,7 @@ OK
 Delete a project.  
   
 ```
- ibmcloud ce project delete (--name PROJECT_NAME | --id PROJECT_ID) [--force]
+ ibmcloud ce project delete (--name PROJECT_NAME | --id PROJECT_ID) [--force] [--hard]
 ```
 {: pre}
 
@@ -183,6 +181,8 @@ Delete a project.
 <dt>`-f`, `--force`</dt>
 <dd>Force deletion without confirmation. This value is optional. The default value is <code>false</code>.
 </dd>
+<dt>`--hard`</dt>
+<dd>Immediately delete the project. If you do not specify the `--hard` option, the project can be restored within 7 days by using {{site.data.keyword.cloud_notm}} resource reclamation. This value is optional. The default value is <code>false</code>.</dd>
 <dt>`-guid`, `--id`</dt>
 <dd>The ID of the project. This value is required if `--name` is not specified. 
 </dd>
