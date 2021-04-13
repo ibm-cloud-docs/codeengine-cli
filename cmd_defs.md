@@ -2,7 +2,7 @@
 
 copyright:
   years: 2021
-lastupdated: "2021-04-08"
+lastupdated: "2021-04-13"
 
 keywords: cli for code engine, command-line interface for code engine, cli commands for code engine, reference for code engine cli, ibmcloud ce, ibmcloud codeengine
 
@@ -2761,6 +2761,24 @@ Service Binding Service ID: ServiceId-1234abcd-abcd-abcd-1111-1a2b3c4d5e6f
 Age:                        52d
 Created:                    Fri, 15 Jan 2021 13:32:30 -0500
 Updated:                    Fri, 15 Jan 2021 13:32:45 -0500
+
+Quotas:
+  Category                                  Used      Limit
+  App revisions                             1         100
+  Apps                                      1         100
+  Build runs                                0         100
+  Builds                                    0         100
+  Configmaps                                2         100
+  CPU                                       1.025     64
+  Ephemeral storage                         902625Ki  256G
+  Instances (active)                        1         250
+  Instances (total)                         2         2500
+  Job runs                                  1         100
+  Jobs                                      1         100
+  Memory                                    4400M     256G
+  Secrets                                   5         100
+  Subscriptions (IBM Cloud Object Storage)  0         100
+  Subscriptions (ping)                      0         100
 ```
 {: screen}  
   
@@ -3484,12 +3502,12 @@ OK
 ## Subscription commands  
 {: #cli-subscription}  
 
-Oftentimes in distributed environments you want your applications to react to messages (events) that are generated from other components, which are usually called event producers. With {{site.data.keyword.codeengineshort}}, your applications can receive events of interest as HTTP POST requests by subscribing to event producers.
+Oftentimes in distributed environments you want your applications or jobs to react to messages (events) that are generated from other components, which are usually called event producers. With {{site.data.keyword.codeengineshort}}, your applications or jobs can receive events of interest as HTTP POST requests by subscribing to event producers.
 {: shortdesc}
 
 {{site.data.keyword.codeengineshort}} supports two types of event producers. 
 
-**Ping (cron)**: The Ping event producer generates an event at regular intervals. Use a Ping event producer when an action needs to be taken at well-defined intervals or at specific times. 
+**Ping (cron)**: The Ping event producer is based on cron and generates an event at regular intervals. Use a Ping event producer when an action needs to be taken at well-defined intervals or at specific times.
 
 **{{site.data.keyword.cos_full_notm}}**: The {{site.data.keyword.cos_short}} event producer generates events as changes are made to the objects in your object storage buckets. For example, as objects are added to a bucket, an application can receive an event and then perform an action based on that change, perhaps consuming that new object.
 
@@ -3562,10 +3580,10 @@ This value is **required**. </dd>
   
 **Example**
 
-The {{site.data.keyword.cos_full_notm}} subscription listens for changes to an {{site.data.keyword.cos_short}} bucket. The following example creates a COS subscription called `mycosevent` for a bucket called `mybucket` that is attached to an app called `myapp`. 
+The {{site.data.keyword.cos_full_notm}} subscription listens for changes to an {{site.data.keyword.cos_short}} bucket. The following example creates a COS subscription called `mycosevent` for a bucket called `mybucket` that is attached to an app called `myapp`. The `--destination-type` option specifies the type of the `destination` which is `app` or `job`.  For this example, the `--destination-type` is `app`, which is the default for this option. 
 
 ```
-ibmcloud ce subscription cos create --name mycosevent --destination myapp --bucket mybucket
+ibmcloud ce subscription cos create --name mycosevent --destination myapp --bucket mybucket --destination-type app
 ```
 {: pre}
 
@@ -3837,10 +3855,10 @@ This value is *optional*. </dd>
   
 **Example**
 
-The following example creates a ping subscription that is called `mypingevent` that forwards a ping event to an app that is called `myapp` every 2 minutes.
+The following example creates a ping subscription that is called `mypingevent` that forwards a ping event to a job that is called `myjob` every 2 minutes.
 
 ```
-ibmcloud ce subscription ping create --name mypingevent --destination myapp --schedule '*/2 * * * *'
+ibmcloud ce subscription ping create --name mypingevent --destination myjobp --schedule '*/2 * * * *' --destination-type job
 ```
 {: pre}
 
@@ -4030,10 +4048,10 @@ This value is *optional*. </dd>
   
 **Example**
 
-The following example updates a ping source subscription that is called `mypingevent` that forwards a ping event to an app that is called `myapp` every hour. 
+The following example updates a ping source subscription that is called `mypingevent` that forwards a ping event to a job that is called `myjob` every hour. 
 
 ```
-ibmcloud ce subscription ping update --name mypingevent --destination myapp --schedule '0 * * * *'
+ibmcloud ce subscription ping update --name mypingevent --destination myjob --schedule '0 * * * *' --destination-type job
 ```
 {: pre}
 
