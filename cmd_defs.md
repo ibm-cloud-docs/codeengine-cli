@@ -2,7 +2,7 @@
 
 copyright:
   years: 2021
-lastupdated: "2021-05-17"
+lastupdated: "2021-05-20"
 
 keywords: cli for code engine, command-line interface for code engine, cli commands for code engine, reference for code engine cli, ibmcloud ce, ibmcloud codeengine, commands, code engine cli
 
@@ -77,6 +77,7 @@ subcollection: codeengine
 {:swift: data-hd-programlang="swift"}
 {:table: .aria-labeledby="caption"}
 {:term: .term}
+{:terraform: .ph data-hd-interface='terraform'}
 {:tip: .tip}
 {:tooling-url: data-tooling-url-placeholder='tooling-url'}
 {:troubleshoot: data-hd-content-type='troubleshoot'}
@@ -2968,7 +2969,7 @@ OK
 ## Registry commands  
 {: #cli-registry}  
 
-A container image registry, or registry, is a repository for your container images. For example, Docker Hub and {{site.data.keyword.registryfull_notm}} are container image registries. A container image registry can be public or private. With {{site.data.keyword.codeengineshort}}, you can add access to your private container image registries.
+A container image registry, or registry, is a repository for your container images. For example, Docker Hub and {{site.data.keyword.registryfull_notm}} are container image registries. A container image registry can be public or private.
 {: shortdesc}
 
 You must be within the context of a [project](#cli-project) before you use `registry` commands.
@@ -3931,10 +3932,10 @@ This value is **required**. </dd>
   
 **Example**
 
-The {{site.data.keyword.cos_full_notm}} subscription listens for changes to an {{site.data.keyword.cos_short}} bucket. The following example creates a COS subscription called `mycosevent` for a bucket called `mybucket` that is attached to an app called `myapp`. The `--destination-type` option specifies the type of the `destination` which is `app` or `job`.  For this example, the `--destination-type` is `app`, which is the default for this option. 
+The {{site.data.keyword.cos_full_notm}} subscription listens for changes to an {{site.data.keyword.cos_short}} bucket. The following example creates a COS subscription called `mycosevent` for a bucket called `mybucket` that is attached to an app called `myapp`. The `--destination-type` option specifies the type of the `destination` which is `app` or `job`.  For this example, the `--destination-type` is `app`, which is the default for this option. The event is sent to the `/events` path by using the `--path` option so that the event is sent to `https://<base application URL>/events`.
 
 ```sh
-ibmcloud ce subscription cos create --name mycosevent --destination myapp --bucket mybucket --destination-type app
+ibmcloud ce subscription cos create --name mycosevent --destination myapp --bucket mybucket --destination-type app --path /events
 ```
 {: pre}
 
