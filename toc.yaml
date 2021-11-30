@@ -1,0 +1,13 @@
+toc:
+  properties:
+    subcollection: codeengine-cli
+    audience: service
+    href: /docs/codeengine-cli
+    path: codeengine-cli
+    label: Code Engine CLI
+    
+  entries: 
+  - navgroup: 
+      id: reference
+      topics:
+      - cmd_defs.md
