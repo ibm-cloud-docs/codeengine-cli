@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2021
-lastupdated: "2021-11-10"
+  years: 2022
+lastupdated: "2022-01-13"
 
 keywords: cli for code engine, command-line interface for code engine, cli commands for code engine, reference for code engine cli, ibmcloud ce, ibmcloud codeengine, commands, code engine cli, apps, jobs, source code, configmap, build repository, build, secret, image repository, registry, example, example output
 
@@ -53,7 +53,7 @@ To manage application revisions, see the [`ibmcloud ce revision`](/docs/codeengi
 
 Bind an {{site.data.keyword.cloud_notm}} service instance to an application.  
   
-```sh
+```
 ibmcloud ce application bind --name APP_NAME --service-instance SI_NAME [--no-wait] [--prefix PREFIX] [--quiet] [--role ROLE] [--service-credential SERVICE_CREDENTIAL] [--wait] [--wait-timeout WAIT_TIMEOUT]
 ```
 {: pre}
@@ -124,8 +124,8 @@ OK
 
 Create an application.  
   
-```sh
-ibmcloud ce application create --name APP_NAME --image IMAGE_REF [--argument ARGUMENT] [--cluster-local] [--command COMMAND] [--concurrency CONCURRENCY] [--concurrency-target CONCURRENCY_TARGET] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-secret ENV_FROM_SECRET] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--max-scale MAX_SCALE] [--memory MEMORY] [--min-scale MIN_SCALE] [--mount-configmap MOUNT_CONFIGMAP] [--mount-secret MOUNT_SECRET] [--no-cluster-local] [--no-wait] [--output OUTPUT] [--port PORT] [--quiet] [--registry-secret REGISTRY_SECRET] [--request-timeout REQUEST_TIMEOUT] [--revision-name REVISION_NAME] [--service-account SERVICE_ACCOUNT] [--user USER] [--wait] [--wait-timeout WAIT_TIMEOUT]
+```
+ibmcloud ce application create --name APP_NAME --image IMAGE_REF [--argument ARGUMENT] [--cluster-local] [--command COMMAND] [--concurrency CONCURRENCY] [--concurrency-target CONCURRENCY_TARGET] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-secret ENV_FROM_SECRET] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--max-scale MAX_SCALE] [--memory MEMORY] [--min-scale MIN_SCALE] [--mount-configmap MOUNT_CONFIGMAP] [--mount-secret MOUNT_SECRET] [--no-cluster-local] [--no-wait] [--output OUTPUT] [--port PORT] [--quiet] [--registry-secret REGISTRY_SECRET] [--request-timeout REQUEST_TIMEOUT] [--revision-name REVISION_NAME] [--service-account SERVICE_ACCOUNT] [--user USER] [--visibility VISIBILITY] [--wait] [--wait-timeout WAIT_TIMEOUT]
 ```
 {: pre}
 
@@ -218,8 +218,8 @@ ibmcloud ce application create --name APP_NAME --image IMAGE_REF [--argument ARG
 
    - The name can contain lowercase letters, numbers, and hyphens (-).
    - The name must end with a lowercase alphanumeric character.
-   - The fully-qualified revision name must be in the format, `Name_of_application`-`Name of revision`.
-   - The fully-qualified revision name must be 63 characters or fewer.
+   - The fully qualified revision name must be in the format, `Name_of_application`-`Name of revision`.
+   - The fully qualified revision name must be 63 characters or fewer.
 
    This value is *optional*. 
 
@@ -228,6 +228,9 @@ ibmcloud ce application create --name APP_NAME --image IMAGE_REF [--argument ARG
 
 `--user`, `-u`
 :   The user ID (UID) that is used to run the application. This value overrides any user ID that is set in the application Dockerfile. The ID must conform to the operating system requirements of the container. This value is *optional*. The default value is `0`.
+
+`--visibility`, `-v`
+:   The visibility for the application. Valid values are `public`, `private` and `project`. Setting a visibility of `public` means that your app can receive requests from the public internet or from components within the {{site.data.keyword.codeengineshort}} project. Setting a visibility of `private` means that your app is not accessible from the public internet and network access is only possible from other {{site.data.keyword.cloud_notm}} using Virtual Private Endpoints (VPE) or {{site.data.keyword.codeengineshort}} components that are running in the same project. Visibility can only be `private` if the project supports application private visibility. Setting a visiblity of `project` means that your app is not accessible from the public internet and network access is only possible from other {{site.data.keyword.codeengineshort}} components that are running in the same project. This value is *optional*. 
 
 `--wait`, `-w`
 :   Create the application and wait for the application to be ready. If you specify the `--wait` option, the application create waits for a maximum time in seconds, as set by the `--wait-timeout` option, for the application to become ready. If the application is not ready within the specified `wait-timeout` period, the application create fails. This value is *optional*. The default value is `true`.
@@ -241,7 +244,7 @@ ibmcloud ce application create --name APP_NAME --image IMAGE_REF [--argument ARG
 {: #application-create-example}
 
 ```sh
-ibmcloud ce application create --name myapp --image ibmcom/hello
+ibmcloud ce application create --name myapp --image icr.io/codeengine/hello
 ```
 {: pre}
 
@@ -266,7 +269,7 @@ When you run `ibmcloud ce application get -n 'myapp'` to check the application s
 
 Delete an application.  
   
-```sh
+```
 ibmcloud ce application delete --name APPLICATION_NAME [--force] [--ignore-not-found] [--no-wait] [--quiet] [--wait] [--wait-timeout WAIT_TIMEOUT]
 ```
 {: pre}
@@ -318,7 +321,7 @@ Deleted application 'myapp'
 
 Display the events of application instances.  
   
-```sh
+```
 ibmcloud ce application events (--instance APP_INSTANCE | --application APP_NAME) [--output OUTPUT] [--quiet]
 ```
 {: pre}
@@ -350,7 +353,7 @@ ibmcloud ce application events --application myapp
 ```
 {: pre}
 
-#### Example output
+##### Example output
 {: #application-events-example-output}
 
 ```sh
@@ -360,8 +363,8 @@ OK
 myapp-atfte-1-deployment-6b49c5fb85-kf4m2:
     Type    Reason     Age  Source                Messages
     Normal  Scheduled  31s  default-scheduler     Successfully assigned 4svg40kna19/myapp-atfte-1-deployment-6b49c5fb85-kf4m2 to 10.240.0.15
-    Normal  Pulling    29s  kubelet, 10.240.0.15  Pulling image "index.docker.io/ibmcom/hello@sha256:f0dc03250736a7b40a66ee70fee94fc470e08c864197aa2140054fee6ca9f9d6"
-    Normal  Pulled     24s  kubelet, 10.240.0.15  Successfully pulled image "index.docker.io/ibmcom/hello@sha256:f0dc03250736a7b40a66ee70fee94fc470e08c864197aa2140054fee6ca9f9d6" in 4.907426108s
+    Normal  Pulling    29s  kubelet, 10.240.0.15  Pulling image "icr.io/codeengine/hello@sha256:f0dc03250736a7b40a66ee70fee94fc470e08c864197aa2140054fee6ca9f9d6"
+    Normal  Pulled     24s  kubelet, 10.240.0.15  Successfully pulled image "icr.io/codeengine/hello@sha256:f0dc03250736a7b40a66ee70fee94fc470e08c864197aa2140054fee6ca9f9d6" in 4.907426108s
     Normal  Created    24s  kubelet, 10.240.0.15  Created container user-container
     Normal  Started    24s  kubelet, 10.240.0.15  Started container user-container
     Normal  Pulled     24s  kubelet, 10.240.0.15  Container image "icr.io/obs/codeengine/knative-serving/queue-39be6f1d08a095bd076a71d288d295b6:v0.20.0-rc1@sha256:8988bea781130827b3e1006e6e5e7f49094343a5505c1927bb832be3470455f6" already present on machine
@@ -370,7 +373,7 @@ myapp-atfte-1-deployment-6b49c5fb85-kf4m2:
 ```
 {: screen}
 
-#### Example
+#### Example of system event information for specified instance of an app
 {: #application-events-example2}
 
 The following example displays the system event information for a specified instance of an app. Use the **`app get`** command to display details about your app, including the running instances of the app.
@@ -380,7 +383,7 @@ ibmcloud ce application events --instance myapp-li17x-1-deployment-69fd57bcb6-sr
 ```
 {: pre}
 
-#### Example output
+##### Example output of system event information for specified instance of an app
 {: #application-events-example2-output}
 
 ```sh
@@ -390,8 +393,8 @@ OK
 myapp-li17x-1-deployment-69fd57bcb6-sr9tl:
     Type     Reason     Age                    Source                Messages
     Normal   Scheduled  6m40s                  default-scheduler     Successfully assigned 4svg40kna19/myapp-li17x-1-deployment-69fd57bcb6-sr9tl to 10.240.64.6
-    Normal   Pulling    6m39s                  kubelet, 10.240.64.6  Pulling image "index.docker.io/ibmcom/hello@sha256:f0dc03250736a7b40a66ee70fee94fc470e08c864197aa2140054fee6ca9f9d6"
-    Normal   Pulled     6m36s                  kubelet, 10.240.64.6  Successfully pulled image "index.docker.io/ibmcom/hello@sha256:f0dc03250736a7b40a66ee70fee94fc470e08c864197aa2140054fee6ca9f9d6"
+    Normal   Pulling    6m39s                  kubelet, 10.240.64.6  Pulling image "icr.io/codeengine/hello@sha256:f0dc03250736a7b40a66ee70fee94fc470e08c864197aa2140054fee6ca9f9d6"
+    Normal   Pulled     6m36s                  kubelet, 10.240.64.6  Successfully pulled image "icr.io/codeengine/hello@sha256:f0dc03250736a7b40a66ee70fee94fc470e08c864197aa2140054fee6ca9f9d6"
     Normal   Created    6m34s                  kubelet, 10.240.64.6  Created container user-container
     Normal   Started    6m33s                  kubelet, 10.240.64.6  Started container user-container
     Normal   Pulled     6m33s                  kubelet, 10.240.64.6  Container image "icr.io/obs/codeengine/knative-serving/queue-39be6f1d08a095bd076a71d288d295b6:v0.19.0-rc3@sha256:9cb525af53896afa6b5210b5ac56a893cf85b6cd013a61cb6503a005e40c5c6f" already present on machine
@@ -406,7 +409,7 @@ myapp-li17x-1-deployment-69fd57bcb6-sr9tl:
 
 Display the details of an application.  
   
-```sh
+```
 ibmcloud ce application get --name APPLICATION_NAME [--output OUTPUT] [--quiet] [--show-all-revisions]
 ```
 {: pre}
@@ -455,7 +458,7 @@ Cluster Local URL:  http://myapp.abcdabcdabc.svc.cluster.local
 Console URL:        https://cloud.ibm.com/codeengine/project/us-south/01234567-abcd-abcd-abcd-abcdabcd1111/application/myapp/configuration
 Status Summary:     Application deployed successfully
 
-Image:                  ibmcom/hello
+Image:                  icr.io/codeengine/hello
 
 Resource Allocation:
     CPU:                1
@@ -466,7 +469,7 @@ Revisions:
     myapp-atfte-1:
         Age:                3d6h
     Traffic:            100%
-    Image:              ibmcom/hello (pinned to f0dc03)
+    Image:              icr.io/codeengine/hello (pinned to f0dc03)
     Running Instances:  1
 
 Runtime:
@@ -497,7 +500,7 @@ Instances:
 
 List all applications in a project.  
   
-```sh
+```
 ibmcloud ce application list [--output OUTPUT] [--quiet] [--sort-by SORT_BY]
 ```
 {: pre}
@@ -547,7 +550,7 @@ myapp          Ready   https://myapp.4svg40kna19.us-south.codeengine.appdomain.c
 
 Display the logs of application instances.  
   
-```sh
+```
 ibmcloud ce application logs (--instance APP_INSTANCE | --application APP_NAME) [--all-containers] [--follow] [--output OUTPUT] [--quiet] [--raw] [--tail TAIL] [--timestamps]
 ```
 {: pre}
@@ -606,17 +609,17 @@ Server running at http://0.0.0.0:8080/
 ```
 {: screen}
 
-#### Example
+#### Example of logs of all instances of an app
 {: #application-logs-example2}
 
-The following example displays the logs of all of the instances of an app.   
+The following example displays the logs of all the instances of an app.   
 
 ```sh
 ibmcloud ce application logs --app myapp
 ```
 {: pre}
 
-#### Example output
+##### Example output of logs of all instances of an app
 {: #application-logs-example2-output}
 
 ```sh
@@ -632,12 +635,53 @@ Server running at http://0.0.0.0:8080/
 {: screen}
   
   
+### `ibmcloud ce application restart`  
+{: #cli-application-restart}  
+
+Restart running application instances.  
+  
+```
+ibmcloud ce application restart (--instance APP_INSTANCE | --application APP_NAME) [--quiet]
+```
+{: pre}
+
+#### Command Options  
+ {: #cmd-options-application-restart} 
+
+`--application`, `--app`, `-a`, `--name`, `-n`
+:   Restart all the running instances of the specified application. This value is required if `--instance` is not specified. 
+
+`--instance`, `-i`
+:   The name of a specific application instance. Use the `app get` command to find the instance name. This value is required if `--application` is not specified. 
+
+`--quiet`, `-q`
+:   Specify this option to reduce the output of the command. This value is *optional*. The default value is `false`.
+
+ 
+  
+#### Example
+{: #application-restart-example}
+
+```sh
+ibmcloud ce application restart --name myapp 
+```
+{: pre}
+
+#### Example output
+{: #application-restart-example-output}
+
+```sh
+Restarting all running instances of application 'myapp'...
+OK
+```
+{: screen}  
+  
 ### `ibmcloud ce application unbind`  
 {: #cli-application-unbind}  
 
 Unbind {{site.data.keyword.cloud_notm}} service instances from an application.  
   
-```sh
+```
 ibmcloud ce application unbind --name APP_NAME (--binding BINDING_NAME | --all) [--quiet]
 ```
 {: pre}
@@ -683,8 +727,8 @@ OK
 
 Update an application. Updating your application creates a revision. When calls are made to the application, traffic is routed to the revision.  
   
-```sh
-ibmcloud ce application update --name APP_NAME [--argument ARGUMENT] [--arguments-clear] [--cluster-local] [--command COMMAND] [--commands-clear] [--concurrency CONCURRENCY] [--concurrency-target CONCURRENCY_TARGET] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-configmap-rm ENV_FROM_CONFIGMAP_RM] [--env-from-secret ENV_FROM_SECRET] [--env-from-secret-rm ENV_FROM_SECRET_RM] [--env-rm ENV_RM] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--image IMAGE] [--max-scale MAX_SCALE] [--memory MEMORY] [--min-scale MIN_SCALE] [--mount-configmap MOUNT_CONFIGMAP] [--mount-rm MOUNT_RM] [--mount-secret MOUNT_SECRET] [--no-cluster-local] [--no-wait] [--output OUTPUT] [--port PORT] [--quiet] [--registry-secret REGISTRY_SECRET] [--registry-secret-clear] [--request-timeout REQUEST_TIMEOUT] [--revision-name REVISION_NAME] [--service-account SERVICE_ACCOUNT] [--service-account-clear] [--user USER] [--wait] [--wait-timeout WAIT_TIMEOUT]
+```
+ibmcloud ce application update --name APP_NAME [--argument ARGUMENT] [--arguments-clear] [--cluster-local] [--command COMMAND] [--commands-clear] [--concurrency CONCURRENCY] [--concurrency-target CONCURRENCY_TARGET] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-configmap-rm ENV_FROM_CONFIGMAP_RM] [--env-from-secret ENV_FROM_SECRET] [--env-from-secret-rm ENV_FROM_SECRET_RM] [--env-rm ENV_RM] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--image IMAGE] [--max-scale MAX_SCALE] [--memory MEMORY] [--min-scale MIN_SCALE] [--mount-configmap MOUNT_CONFIGMAP] [--mount-rm MOUNT_RM] [--mount-secret MOUNT_SECRET] [--no-cluster-local] [--no-wait] [--output OUTPUT] [--port PORT] [--quiet] [--registry-secret REGISTRY_SECRET] [--registry-secret-clear] [--request-timeout REQUEST_TIMEOUT] [--revision-name REVISION_NAME] [--service-account SERVICE_ACCOUNT] [--service-account-clear] [--user USER] [--visibility VISIBILITY] [--wait] [--wait-timeout WAIT_TIMEOUT]
 ```
 {: pre}
 
@@ -792,8 +836,8 @@ ibmcloud ce application update --name APP_NAME [--argument ARGUMENT] [--argument
 
    - The name can contain lowercase letters, numbers, and hyphens (-).
    - The name must end with a lowercase alphanumeric character.
-   - The fully-qualified revision name must be in the format, `Name_of_application`-`Name of revision`.
-   - The fully-qualified revision name must be 63 characters or fewer.
+   - The fully qualified revision name must be in the format, `Name_of_application`-`Name of revision`.
+   - The fully qualified revision name must be 63 characters or fewer.
 
    This value is *optional*. 
 
@@ -805,6 +849,9 @@ ibmcloud ce application update --name APP_NAME [--argument ARGUMENT] [--argument
 
 `--user`, `-u`
 :   The user ID (UID) that is used to run the application. This value overrides any user ID that is set in the application Dockerfile. The ID must conform to the operating system requirements of the container. This value is *optional*. The default value is `0`.
+
+`--visibility`, `-v`
+:   The visibility for the application. Valid values are `public`, `private` and `project`. Setting a visibility of `public` means that your app can receive requests from the public internet or from components within the {{site.data.keyword.codeengineshort}} project. Setting a visibility of `private` means that your app is not accessible from the public internet and network access is only possible from other {{site.data.keyword.cloud_notm}} using Virtual Private Endpoints (VPE) or {{site.data.keyword.codeengineshort}} components that are running in the same project. Visibility can only be `private` if the project supports application private visibility. Setting a visiblity of `project` means that your app is not accessible from the public internet and network access is only possible from other {{site.data.keyword.codeengineshort}} components that are running in the same project. This value is *optional*. 
 
 `--wait`, `-w`
 :   Update the application and wait for the application to be ready. If you specify the `--wait` option, the application update waits for a maximum time in seconds, as set by the `--wait-timeout` option, for the application to become ready. If the application is not ready within the specified `--wait-timeout` period, the application create fails. This value is *optional*. The default value is `true`.
@@ -818,7 +865,7 @@ ibmcloud ce application update --name APP_NAME [--argument ARGUMENT] [--argument
 {: #application-update-example}
 
 ```sh
-ibmcloud ce application update --name myapp --image ibmcom/hello
+ibmcloud ce application update --name myapp --image icr.io/codeengine/hello
 ```
 {: pre}
 
@@ -853,8 +900,8 @@ You can use either `build` or `bd` in your `build` commands. To see CLI help for
 
 Create a build.  
   
-```sh
-ibmcloud ce build create --name BUILD_NAME --image IMAGE_REF --source SOURCE --registry-secret REGISTRY_REF [--commit COMMIT] [--context-dir CONTEXT_DIR] [--dockerfile DOCKERFILE] [--force] [--git-repo-secret GIT_REPO_SECRET] [--output OUTPUT] [--quiet] [--size SIZE] [--strategy STRATEGY] [--timeout TIMEOUT]
+```
+ibmcloud ce build create --name BUILD_NAME --image IMAGE_REF --registry-secret REGISTRY_REF [--commit COMMIT] [--context-dir CONTEXT_DIR] [--dockerfile DOCKERFILE] [--force] [--git-repo-secret GIT_REPO_SECRET] [--output OUTPUT] [--quiet] [--size SIZE] [--source SOURCE] [--strategy STRATEGY] [--timeout TIMEOUT]
 ```
 {: pre}
 
@@ -875,11 +922,8 @@ ibmcloud ce build create --name BUILD_NAME --image IMAGE_REF --source SOURCE --r
 `--registry-secret`, `--rs`
 :   The image registry access secret that is used to access the registry. You can add the image registry access secret by running the `registry create` command. This value is *required*. 
 
-`--source`, `--src`
-:   The URL of the Git repository that contains your source code; for example `https://github.com/IBM/CodeEngine`. This value is *required*. 
-
 `--commit`, `--cm`, `--revision`
-:   The commit, tag, or branch in the source repository to pull. This value is *optional*. 
+:   The commit, tag, or branch in the source repository to pull. The commit option is allowed if the `--build-type` option is `git` and not allowed if the `--build-type` option is `local`. This value is *optional*. 
 
 `--context-dir`, `--cdr`
 :   The directory in the repository that contains the buildpacks file or the Dockerfile. This value is *optional*. 
@@ -891,7 +935,7 @@ ibmcloud ce build create --name BUILD_NAME --image IMAGE_REF --source SOURCE --r
 :   Do not verify the existence of specified secret references. Secret references are specified with the `--get-repo-secret` or `--registry-secret` options. This value is *optional*. The default value is `false`.
 
 `--git-repo-secret`, `--grs`, `--repo`, `-r`
-:   The name of the Git repository access secret to access the private repository. This repository contains the source code to build your container image. To create this access secret, use the `repo create` command. This value is *optional*. 
+:   The name of the Git repository access secret to access the private repository. This repository contains the source code to build your container image. To create this access secret, use the `repo create` command. The git-repo-secret option is allowed if the `--build-type` option is `git` and not allowed if the `--build-type` option is `local`. This value is *optional*. 
 
 `--output`, `-o`
 :   Specifies the format of the command output. Valid values are `json`, `yaml`, `jsonpath=JSONPATH_EXPRESSION`, and `jsonpath-as-json=JSONPATH_EXPRESSION`. Use `jsonpath` to specify the path to an element of the JSON output. This value is *optional*. 
@@ -901,6 +945,9 @@ ibmcloud ce build create --name BUILD_NAME --image IMAGE_REF --source SOURCE --r
 
 `--size`, `--sz`
 :   The size for the build, which determines the amount of resources used. Valid values are `small`, `medium`, `large`, `xlarge`. For details, see [Determining the size of the build](/docs/codeengine?topic=codeengine-plan-build#build-size). This value is *optional*. The default value is `medium`.
+
+`--source`, `--src`
+:   The URL of the Git repository that contains your source code; for example `https://github.com/IBM/CodeEngine`. The source option is required if the `--build-type` option is `git` and not allowed if the `--build-type` option is `local`. This value is *optional*. 
 
 `--strategy`, `--str`
 :   The strategy to use for building the image. Valid values are `dockerfile` and `buildpacks`. This value is *optional*. The default value is `dockerfile`.
@@ -934,7 +981,7 @@ OK
 
 Delete a build.  
   
-```sh
+```
 ibmcloud ce build delete --name BUILD_NAME [--force] [--ignore-not-found] [--quiet]
 ```
 {: pre}
@@ -979,7 +1026,7 @@ OK
 
 Display the details of a build.  
   
-```sh
+```
 ibmcloud ce build get --name BUILD_NAME [--output OUTPUT] [--quiet]
 ```
 {: pre}
@@ -1047,7 +1094,7 @@ Build Runs:
 
 List all builds in a project.  
   
-```sh
+```
 ibmcloud ce build list [--output OUTPUT] [--quiet] [--sort-by SORT_BY]
 ```
 {: pre}
@@ -1094,7 +1141,7 @@ helloworld-build       Succeeded  all validations succeeded  us.icr.io/mynamespa
 
 Update a build.  
   
-```sh
+```
 ibmcloud ce build update --name BUILD_NAME [--commit COMMIT] [--context-dir CONTEXT_DIR] [--dockerfile DOCKERFILE] [--force] [--git-repo-secret GIT_REPO_SECRET] [--image IMAGE] [--output OUTPUT] [--quiet] [--registry-secret REGISTRY_SECRET] [--size SIZE] [--source SOURCE] [--strategy STRATEGY] [--timeout TIMEOUT]
 ```
 {: pre}
@@ -1176,12 +1223,50 @@ For more information about working with builds and build runs, see [Building a c
 You can use either `buildrun` or `br` in your `buildrun` commands. To see CLI help for the `buildrun` commands, run `ibmcloud ce br -h`.
 {: tip}  
   
+### `ibmcloud ce buildrun cancel`  
+{: #cli-buildrun-cancel}  
+
+Cancel a build run.  
+  
+```
+ibmcloud ce buildrun cancel --name BUILDRUN_NAME [--quiet]
+```
+{: pre}
+
+#### Command Options  
+ {: #cmd-options-buildrun-cancel} 
+
+`--name`, `-n`
+:   The name of the build run. This value is *required*. 
+
+`--quiet`, `-q`
+:   Specify this option to reduce the output of the command. This value is *optional*. The default value is `false`.
+
+ 
+  
+#### Example
+{: #buildrun-cancel-example}
+
+```sh
+ibmcloud ce buildrun cancel --name mybuildrun
+```
+{: pre}
+
+#### Example output
+{: #buildrun-cancel-example-output}
+
+```sh
+Cancelling build run 'mybuildrun'...
+OK
+```
+{: screen}  
+  
 ### `ibmcloud ce buildrun delete`  
 {: #cli-buildrun-delete}  
 
 Delete a build run.  
   
-```sh
+```
 ibmcloud ce buildrun delete (--name BUILDRUN_NAME | --build BUILD_NAME) [--force] [--ignore-not-found] [--quiet]
 ```
 {: pre}
@@ -1214,7 +1299,7 @@ ibmcloud ce buildrun delete --name mybuildrun
 ```
 {: pre}
 
-#### Example
+#### Example output
 {: #buildrun-delete-example-output}
 
 ```sh
@@ -1229,7 +1314,7 @@ OK
 
 Display the events of a build run.  
   
-```sh
+```
 ibmcloud ce buildrun events --buildrun BUILDRUN_NAME [--output OUTPUT] [--quiet]
 ```
 {: pre}
@@ -1296,7 +1381,7 @@ mybuildrun-l4mr2-pod-89z4t:
 
 Display the details of a build run.  
   
-```sh
+```
 ibmcloud ce buildrun get --name BUILDRUN_NAME [--output OUTPUT] [--quiet]
 ```
 {: pre}
@@ -1339,9 +1424,16 @@ Project ID:    01234567-abcd-abcd-abcd-abcdabcd1111
 Age:           21m  
 Created:       2021-03-14T14:50:13-05:00  
 
-Summary:  Succeeded  
-Status:   Succeeded  
-Reason:   Succeeded
+Summary:       Succeeded  
+Status:        Succeeded  
+Reason:        All Steps have completed executing  
+Source:          
+  Commit Branch:  main  
+  Commit SHA:     abcdeb88263442e28af6ae26d2082dea1d6abcde  
+  Commit Author:  myauthor  
+Image Digest:  sha256:522488ca3b54eb65f8c1e609a7b27c08558d08166fe062e7dde6838d4a609d61  
+
+Image:  us.icr.io/mynamespace/test
 ```
 {: screen}  
   
@@ -1350,7 +1442,7 @@ Reason:   Succeeded
 
 List all build runs in a project.  
   
-```sh
+```
 ibmcloud ce buildrun list [--build BUILD] [--output OUTPUT] [--quiet] [--sort-by SORT_BY]
 ```
 {: pre}
@@ -1399,7 +1491,7 @@ mybuildrun2                           Succeeded  helloworld-build  3m4s
 
 Display the logs of a build run.  
   
-```sh
+```
 ibmcloud ce buildrun logs --buildrun BUILDRUN_NAME [--follow] [--output OUTPUT] [--quiet] [--raw] [--tail TAIL] [--timestamps]
 ```
 {: pre}
@@ -1499,7 +1591,7 @@ mybuildrun-v2mb8-pod-tlzdx/step-image-digest-exporter-hcvmf:
 
 Submit a build run.  
   
-```sh
+```
 ibmcloud ce buildrun submit --build BUILD_NAME [--image IMAGE] [--name NAME] [--no-wait] [--output OUTPUT] [--quiet] [--service-account SERVICE_ACCOUNT] [--timeout TIMEOUT] [--wait] [--wait-timeout WAIT_TIMEOUT]
 ```
 {: pre}
@@ -1582,7 +1674,7 @@ You can use either `configmap` or `cm` in your `configmap` commands. To see CLI 
 
 Create a configmap.  
   
-```sh
+```
 ibmcloud ce configmap create --name CONFIGMAP_NAME (--from-env-file FILE | --from-file FILE | --from-file KEY=FILE | --from-literal KEY=VALUE) [--output OUTPUT] [--quiet]
 ```
 {: pre}
@@ -1635,7 +1727,7 @@ Run 'ibmcloud ce configmap get -n configmap-fromliteral' to see more details.
 ```
 {: screen}
 
-#### Example
+#### Example of a configmap with values from multiple files
 {: #configmap-create-example2}
 
 The following example creates a configmap that is named `configmap-fromfile` with values from multiple files.
@@ -1645,7 +1737,7 @@ ibmcloud ce configmap create --name configmap-fromfile  --from-file ./color.txt 
 ```
 {: pre}
 
-#### Example output
+##### Example output of a configmap with values from multiple files
 {: #configmap-create-example2-output}
 
 ```sh
@@ -1660,7 +1752,7 @@ Run 'ibmcloud ce configmap get -n configmap-fromfile' to see more details.
 
 Delete a configmap.  
   
-```sh
+```
 ibmcloud ce configmap delete --name CONFIGMAP_NAME [--force] [--ignore-not-found] [--quiet]
 ```
 {: pre}
@@ -1704,7 +1796,7 @@ OK
 
 Display the details of a configmap.  
   
-```sh
+```
 ibmcloud ce configmap get --name CONFIGMAP_NAME [--output OUTPUT] [--quiet]
 ```
 {: pre}
@@ -1757,7 +1849,7 @@ size: large
 
 List all configmaps in a project.  
   
-```sh
+```
 ibmcloud ce configmap list [--output OUTPUT] [--quiet] [--sort-by SORT_BY]
 ```
 {: pre}
@@ -1851,7 +1943,7 @@ Run 'ibmcloud ce configmap get -n configmap-fromliteral' to see more details.
 ```
 {: screen}
 
-#### Example
+#### Example of a configmap with values from a file 
 {: #configmap-update-example2}
 
 The following example updates a configmap that is named `configmap-fromfile` with values from a file.
@@ -1861,7 +1953,7 @@ ibmcloud ce configmap update --name configmap-fromfile  --from-file ./username.t
 ```
 {: pre}
 
-#### Example output
+##### Example output of a configmap with values from a file 
 {: #configmap-update-example2-output}
 
 ```sh
@@ -1958,7 +2050,7 @@ OK
 Create a job.  
   
 ```
-ibmcloud ce job create --name JOB_NAME --image IMAGE_REF [--argument ARGUMENT] [--array-indices ARRAY_INDICES] [--command COMMAND] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-secret ENV_FROM_SECRET] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--instances INSTANCES] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--output OUTPUT] [--quiet] [--registry-secret REGISTRY_SECRET] [--retrylimit RETRYLIMIT] [--service-account SERVICE_ACCOUNT]
+ibmcloud ce job create --name JOB_NAME --image IMAGE_REF [--argument ARGUMENT] [--array-indices ARRAY_INDICES] [--command COMMAND] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-secret ENV_FROM_SECRET] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--instances INSTANCES] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--mount-configmap MOUNT_CONFIGMAP] [--mount-secret MOUNT_SECRET] [--output OUTPUT] [--quiet] [--registry-secret REGISTRY_SECRET] [--retrylimit RETRYLIMIT] [--service-account SERVICE_ACCOUNT]
 ```
 {: pre}
 
@@ -2012,6 +2104,12 @@ ibmcloud ce job create --name JOB_NAME --image IMAGE_REF [--argument ARGUMENT] [
 `--memory`, `-m`
 :   The amount of memory that is set for runs of the job. Use `M` for megabytes or `G` for gigabytes. For valid values, see [Supported memory and CPU combinations](/docs/codeengine?topic=codeengine-mem-cpu-combo). This value is *optional*. The default value is `4G`.
 
+`--mount-configmap`, `--mount-cm`
+:   Add the contents of a configmap to the file system of runs of the job by providing a mount directory and the name of a configmap, with the format `MOUNT_DIRECTORY=CONFIGMAP_NAME`. Each mounted configmap must use a unique mount directory. For each key-value pair in the configmap, a file is added to the specified mount directory where the filename is the key and the contents of the file is the value of the key-value pair. Specify one mount configuration per `--mount-configmap` option; for example, `--mount-configmap /etc/config-a=config-a --mount-configmap /etc/config-b=config-b`. This value is *optional*. 
+
+`--mount-secret`, `--mount-sec`
+:   Add the contents of a secret to the file system of runs of the job by providing a mount directory and the name of a secret, with the format `MOUNT_DIRECTORY=SECRET_NAME`. Each mounted secret must use a unique mount directory. For each key-value pair in the secret, a file is added to the specified mount directory where the filename is the key and the contents of the file is the value of the key-value pair. Specify one mount configuration per `--mount-secret` option; for example, `--mount-secret /etc/secret-a=secret--a --mount-secret /etc/secret-b=secret-b`. This value is *optional*. 
+
 `--output`, `-o`
 :   Specifies the format of the command output. Valid values are `json`, `yaml`, `jsonpath=JSONPATH_EXPRESSION`, and `jsonpath-as-json=JSONPATH_EXPRESSION`. Use `jsonpath` to specify the path to an element of the JSON output. This value is *optional*. 
 
@@ -2032,10 +2130,10 @@ ibmcloud ce job create --name JOB_NAME --image IMAGE_REF [--argument ARGUMENT] [
 #### Example
 {: #job-create-example}
 
-The following example uses the container image `ibmcom/firstjob` and assigns 2G MB as memory and 1 CPU to the container. For more information about selecting valid memory and CPU values, see [Supported memory and CPU combinations](/docs/codeengine?topic=codeengine-mem-cpu-combo).
+The following example uses the container image `icr.io/codeengine/firstjob` and assigns 2G MB as memory and 1 CPU to the container. For more information about selecting valid memory and CPU values, see [Supported memory and CPU combinations](/docs/codeengine?topic=codeengine-mem-cpu-combo).
 
 ```sh
-ibmcloud ce job create --image ibmcom/firstjob --name hellojob --memory 2G --cpu 1
+ibmcloud ce job create --image icr.io/codeengine/firstjob --name hellojob --memory 2G --cpu 1
 ```
 {: pre}
 
@@ -2150,7 +2248,7 @@ Last Job Run:
   Age:      32d
   Created:  2021-06-06T13:52:42-04:00
 
-Image:                ibmcom/firstjob
+Image:                icr.io/codeengine/firstjob
 Resource Allocation:
     CPU:     1
     Memory:  4G
@@ -2259,7 +2357,7 @@ OK
 Update a job.  
   
 ```
-ibmcloud ce job update --name JOB_NAME [--argument ARGUMENT] [--arguments-clear] [--array-indices ARRAY_INDICES] [--command COMMAND] [--commands-clear] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-configmap-rm ENV_FROM_CONFIGMAP_RM] [--env-from-secret ENV_FROM_SECRET] [--env-from-secret-rm ENV_FROM_SECRET_RM] [--env-rm ENV_RM] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--image IMAGE] [--instances INSTANCES] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--output OUTPUT] [--quiet] [--registry-secret REGISTRY_SECRET] [--registry-secret-clear] [--retrylimit RETRYLIMIT] [--service-account SERVICE_ACCOUNT] [--service-account-clear]
+ibmcloud ce job update --name JOB_NAME [--argument ARGUMENT] [--arguments-clear] [--array-indices ARRAY_INDICES] [--command COMMAND] [--commands-clear] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-configmap-rm ENV_FROM_CONFIGMAP_RM] [--env-from-secret ENV_FROM_SECRET] [--env-from-secret-rm ENV_FROM_SECRET_RM] [--env-rm ENV_RM] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--image IMAGE] [--instances INSTANCES] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--mount-configmap MOUNT_CONFIGMAP] [--mount-rm MOUNT_RM] [--mount-secret MOUNT_SECRET] [--output OUTPUT] [--quiet] [--registry-secret REGISTRY_SECRET] [--registry-secret-clear] [--retrylimit RETRYLIMIT] [--service-account SERVICE_ACCOUNT] [--service-account-clear]
 ```
 {: pre}
 
@@ -2322,6 +2420,15 @@ ibmcloud ce job update --name JOB_NAME [--argument ARGUMENT] [--arguments-clear]
 
 `--memory`, `-m`
 :   The amount of memory that is set for runs of the job. Use `M` for megabytes or `G` for gigabytes. For valid values, see [Supported memory and CPU combinations](/docs/codeengine?topic=codeengine-mem-cpu-combo). This value is *optional*. 
+
+`--mount-configmap`, `--mount-cm`
+:   Add the contents of a configmap to the file system of runs of the job by providing a mount directory and the name of a configmap, with the format `MOUNT_DIRECTORY=CONFIGMAP_NAME`. Each mounted configmap must use a unique mount directory. For each key-value pair in the configmap, a file is added to the specified mount directory where the filename is the key and the contents of the file is the value of the key-value pair. Specify one mount configuration per `--mount-configmap` option; for example, `--mount-configmap /etc/config-a=config-a --mount-configmap /etc/config-b=config-b`. This value is *optional*. 
+
+`--mount-rm`
+:   Remove the contents of a configmap or secret from the file system of runs of the job by specifying the directory where the configmap or secret is mounted. Specify one mount directory per `--mount-rm` option; for example, `--mount-rm /etc/configmap-a --mount-rm /etc/secret-b`. This value is *optional*. 
+
+`--mount-secret`, `--mount-sec`
+:   Add the contents of a secret to the file system of runs of the job by providing a mount directory and the name of a secret, with the format `MOUNT_DIRECTORY=SECRET_NAME`. Each mounted secret must use a unique mount directory. For each key-value pair in the secret, a file is added to the specified mount directory where the filename is the key and the contents of the file is the value of the key-value pair. Specify one mount configuration per `--mount-secret` option; for example, `--mount-secret /etc/secret-a=secret--a --mount-secret /etc/secret-b=secret-b`. This value is *optional*. 
 
 `--output`, `-o`
 :   Specifies the format of the command output. Valid values are `json`, `yaml`, `jsonpath=JSONPATH_EXPRESSION`, and `jsonpath-as-json=JSONPATH_EXPRESSION`. Use `jsonpath` to specify the path to an element of the JSON output. This value is *optional*. 
@@ -2453,8 +2560,7 @@ ibmcloud ce jobrun events (--instance JOBRUN_INSTANCE | --jobrun JOBRUN_NAME) [-
 #### Example
 {: #jobrun-events-example}
 
-The following example displays the system event information for all the instances of a specified job run.   
-
+The following example displays the system event information for all the instances of a specified job run. 
 ```sh
 ibmcloud ce jobrun events --jobrun myjobrun
 ```
@@ -2473,17 +2579,17 @@ myjobrun-1-0:
     Type     Reason                  Age  Source                  Messages
     Normal   Scheduled               49s  default-scheduler       Successfully assigned 4svg40kna19/myjobrun-1-0 to 10.240.64.136
     [...]
-    Normal   Pulling                 34s  kubelet, 10.240.64.136  Pulling image "ibmcom/testjob"
+    Normal   Pulling                 34s  kubelet, 10.240.64.136  Pulling image "icr.io/codeengine/testjob"
 
 myjobrun-2-0:
     Type    Reason     Age  Source                  Messages
     Normal  Scheduled  50s  default-scheduler       Successfully assigned 4svg40kna19/myjobrun-2-0 to 10.240.64.131
-    Normal  Pulling    48s  kubelet, 10.240.64.131  Pulling image "ibmcom/testjob"
+    Normal  Pulling    48s  kubelet, 10.240.64.131  Pulling image "icr.io/codeengine/testjob"
 
 ```
 {: screen}
 
-#### Example
+#### Example of system event information for specified instance of a job run
 {: #jobrun-events-example2}
 
 You can also display system event information for a specified instance of a job run by using the `--instance` option with the [**`ibmcloud ce jobrun events`**](/docs/codeengine?topic=codeengine-cli#cli-jobrun-events) command. Use the **`jobrun get`** command to display details about your job run, including the running instances of the job run. 
@@ -2493,7 +2599,7 @@ ibmcloud ce jobrun events --instance myjobrun-2-0
 ```
 {: pre}
 
-#### Example output
+##### Example output of system event information for specified instance of a job run
 {: #jobrun-events-example2-output}
 
 ```sh
@@ -2503,8 +2609,8 @@ OK
 myjobrun-2-0:
     Type    Reason     Age    Source                  Messages
     Normal  Scheduled  3m39s  default-scheduler       Successfully assigned 4svg40kna19/myjobrun-2-0 to 10.240.64.131
-    Normal  Pulling    3m37s  kubelet, 10.240.64.131  Pulling image "ibmcom/testjob"
-    Normal  Pulled     2m42s  kubelet, 10.240.64.131  Successfully pulled image "ibmcom/testjob"
+    Normal  Pulling    3m37s  kubelet, 10.240.64.131  Pulling image "icr.io/codeengine/testjob"
+    Normal  Pulled     2m42s  kubelet, 10.240.64.131  Successfully pulled image "icr.io/codeengine/testjob"
     Normal  Created    2m42s  kubelet, 10.240.64.131  Created container myjobrun
     Normal  Started    2m41s  kubelet, 10.240.64.131  Started container myjobrun
 ```
@@ -2558,7 +2664,7 @@ Name:          myjobrun
 [...]
 Created:       2021-03-02T10:31:13-05:00
 
-Image:                ibmcom/firstjob
+Image:                icr.io/codeengine/firstjob
 Resource Allocation:
     CPU:                1
     Ephemeral Storage:  400M
@@ -2711,17 +2817,17 @@ Hi from a batch job! My index is: 3
 ```
 {: screen}
 
-#### Example
+#### Example of logs of all instances of a job run
 {: #jobrun-logs-example2}
 
-The following example displays the logs of all of the instances of a job run. 
+The following example displays the logs of all the instances of a job run. 
 
 ```sh
 ibmcloud ce jobrun logs --jobrun myjobrun
 ```
 {: pre}
 
-#### Example output
+##### Example output of logs of all instances of a job run
 {: #jobrun-logs-example2-output}
 
 ```sh
@@ -2747,13 +2853,56 @@ Hi from a batch job! My index is: 5
 ```
 {: screen}  
   
+### `ibmcloud ce jobrun restart`  
+{: #cli-jobrun-restart}  
+
+Restart running job run instances.  
+  
+```
+ibmcloud ce jobrun restart (--instance JOBRUN_INSTANCE | --jobrun JOBRUN_NAME) [--quiet]
+```
+{: pre}
+
+#### Command Options  
+ {: #cmd-options-jobrun-restart} 
+
+`--instance`, `-i`
+:   The name of a specific job run instance. Use the `jobrun get` command to find the instance name. This value is required if `--jobrun` is not specified. 
+
+`--jobrun`, `-j`, `--name`, `-n`
+:   Restart all the running instances of the specified job run. This value is required if `--instance` is not specified. 
+
+`--quiet`, `-q`
+:   Specify this option to reduce the output of the command. This value is *optional*. The default value is `false`.
+
+ 
+  
+#### Example
+{: #jobrun-restart-example}
+
+```sh
+ibmcloud ce jobrun restart --name myjobrun   
+```
+{: pre}
+
+#### Example output
+{: #jobrun-restart-example-output}
+
+```sh
+Getting jobrun 'myjobrun'...
+Getting instances of jobrun 'myjobrun'...
+Restarting all running instances of job run 'myjobrun'...
+OK
+```
+{: screen}  
+  
 ### `ibmcloud ce jobrun resubmit`  
 {: #cli-jobrun-resubmit}  
 
 Resubmit a job run based on the configuration of a previous job run.  
   
 ```
-ibmcloud ce jobrun resubmit --jobrun REFERENCED_JOBRUN_NAME [--argument ARGUMENT] [--arguments-clear] [--array-indices ARRAY_INDICES] [--command COMMAND] [--commands-clear] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-configmap-rm ENV_FROM_CONFIGMAP_RM] [--env-from-secret ENV_FROM_SECRET] [--env-from-secret-rm ENV_FROM_SECRET_RM] [--env-rm ENV_RM] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--instances INSTANCES] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--name NAME] [--no-wait] [--output OUTPUT] [--quiet] [--retrylimit RETRYLIMIT] [--service-account SERVICE_ACCOUNT] [--service-account-clear] [--wait] [--wait-timeout WAIT_TIMEOUT]
+ibmcloud ce jobrun resubmit --jobrun REFERENCED_JOBRUN_NAME [--argument ARGUMENT] [--arguments-clear] [--array-indices ARRAY_INDICES] [--command COMMAND] [--commands-clear] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-configmap-rm ENV_FROM_CONFIGMAP_RM] [--env-from-secret ENV_FROM_SECRET] [--env-from-secret-rm ENV_FROM_SECRET_RM] [--env-rm ENV_RM] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--instances INSTANCES] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--mount-configmap MOUNT_CONFIGMAP] [--mount-rm MOUNT_RM] [--mount-secret MOUNT_SECRET] [--name NAME] [--no-wait] [--output OUTPUT] [--quiet] [--retrylimit RETRYLIMIT] [--service-account SERVICE_ACCOUNT] [--service-account-clear] [--wait] [--wait-timeout WAIT_TIMEOUT]
 ```
 {: pre}
 
@@ -2813,6 +2962,15 @@ ibmcloud ce jobrun resubmit --jobrun REFERENCED_JOBRUN_NAME [--argument ARGUMENT
 
 `--memory`, `-m`
 :   The amount of memory to assign to this job run. Use `M` for megabytes or `G` for gigabytes. For valid values, see [Supported memory and CPU combinations](/docs/codeengine?topic=codeengine-mem-cpu-combo). This value is *optional*. 
+
+`--mount-configmap`, `--mount-cm`
+:   Add the contents of a configmap to the file system of this job run by providing a mount directory and the name of a configmap, with the format `MOUNT_DIRECTORY=CONFIGMAP_NAME`. Each mounted configmap must use a unique mount directory. For each key-value pair in the configmap, a file is added to the specified mount directory where the filename is the key and the contents of the file is the value of the key-value pair. Specify one mount configuration per `--mount-configmap` option; for example, `--mount-configmap /etc/config-a=config-a --mount-configmap /etc/config-b=config-b`. This value is *optional*. 
+
+`--mount-rm`
+:   Remove the contents of a configmap or secret from the file system of this job run by specifying the directory where the configmap or secret is mounted. Specify one mount directory per `--mount-rm` option; for example, `--mount-rm /etc/configmap-a --mount-rm /etc/secret-b`. This value is *optional*. 
+
+`--mount-secret`, `--mount-sec`
+:   Add the contents of a secret to the file system of this job run by providing a mount directory and the name of a secret, with the format `MOUNT_DIRECTORY=SECRET_NAME`. Each mounted secret must use a unique mount directory. For each key-value pair in the secret, a file is added to the specified mount directory where the filename is the key and the contents of the file is the value of the key-value pair. Specify one mount configuration per `--mount-secret` option; for example, `--mount-secret /etc/secret-a=secret--a --mount-secret /etc/secret-b=secret-b`. This value is *optional*. 
 
 `-n`, `--name`
 :   The name of this job run. This value is required if the referenced job does not have a related job configuration. Use a name that is unique within the project.
@@ -2875,7 +3033,7 @@ OK
 Submit a job run based on a job.  
   
 ```
-ibmcloud ce jobrun submit ((--name JOBRUN_NAME --image IMAGE) | (--job JOB_NAME [--name JOBRUN_NAME])) [--argument ARGUMENT] [--array-indices ARRAY_INDICES] [--command COMMAND] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-secret ENV_FROM_SECRET] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--instances INSTANCES] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--no-wait] [--output OUTPUT] [--quiet] [--registry-secret REGISTRY_SECRET] [--retrylimit RETRYLIMIT] [--service-account SERVICE_ACCOUNT] [--wait] [--wait-timeout WAIT_TIMEOUT]
+ibmcloud ce jobrun submit ((--name JOBRUN_NAME --image IMAGE) | (--job JOB_NAME [--name JOBRUN_NAME])) [--argument ARGUMENT] [--array-indices ARRAY_INDICES] [--command COMMAND] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-secret ENV_FROM_SECRET] [--ephemeral-storage EPHEMERAL_STORAGE] [--force] [--instances INSTANCES] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--mount-configmap MOUNT_CONFIGMAP] [--mount-secret MOUNT_SECRET] [--no-wait] [--output OUTPUT] [--quiet] [--registry-secret REGISTRY_SECRET] [--retrylimit RETRYLIMIT] [--service-account SERVICE_ACCOUNT] [--wait] [--wait-timeout WAIT_TIMEOUT]
 ```
 {: pre}
 
@@ -2924,6 +3082,12 @@ ibmcloud ce jobrun submit ((--name JOBRUN_NAME --image IMAGE) | (--job JOB_NAME 
 `--memory`, `-m`
 :   The amount of memory to assign to this job run. Use `M` for megabytes or `G` for gigabytes. For valid values, see [Supported memory and CPU combinations](/docs/codeengine?topic=codeengine-mem-cpu-combo). This value is *optional*. The default value is `4G`.
 
+`--mount-configmap`, `--mount-cm`
+:   Add the contents of a configmap to the file system of this job run by providing a mount directory and the name of a configmap, with the format `MOUNT_DIRECTORY=CONFIGMAP_NAME`. Each mounted configmap must use a unique mount directory. For each key-value pair in the configmap, a file is added to the specified mount directory where the filename is the key and the contents of the file is the value of the key-value pair. Specify one mount configuration per `--mount-configmap` option; for example, `--mount-configmap /etc/config-a=config-a --mount-configmap /etc/config-b=config-b`. This value is *optional*. 
+
+`--mount-secret`, `--mount-sec`
+:   Add the contents of a secret to the file system of this job run by providing a mount directory and the name of a secret, with the format `MOUNT_DIRECTORY=SECRET_NAME`. Each mounted secret must use a unique mount directory. For each key-value pair in the secret, a file is added to the specified mount directory where the filename is the key and the contents of the file is the value of the key-value pair. Specify one mount configuration per `--mount-secret` option; for example, `--mount-secret /etc/secret-a=secret--a --mount-secret /etc/secret-b=secret-b`. This value is *optional*. 
+
 `-n`, `--name`
 :   The name of this job run. If you do not specify the `--job` value, then the `--name` and the `--image` values are required. Use a name that is unique within the project.
 
@@ -2962,7 +3126,7 @@ ibmcloud ce jobrun submit ((--name JOBRUN_NAME --image IMAGE) | (--job JOB_NAME 
 {: #jobrun-submit-example}
 
 ```sh
-ibmcloud ce jobrun submit --name myjobrun --image ibmcom/firstjob --array-indices 1-5
+ibmcloud ce jobrun submit --name myjobrun --image icr.io/codeengine/firstjob --array-indices 1-5
 ```
 {: pre}
 
@@ -2982,7 +3146,14 @@ OK
 Use `project` commands to create, list, delete, and select a project as the current context.
 {: shortdesc}
 
-A project is a grouping of {{site.data.keyword.codeengineshort}} entities such as applications, jobs, and builds. A project is based on a Kubernetes namespace. The name of your project must be unique within your {{site.data.keyword.cloud}} resource group, user account, and region. Projects are used to manage resources and provide access to its entities. A project provides the following items:<ul><li>Provides a unique namespace for entity names.</li><li> Manages access to project resources (inbound access).</li><li> Manages access to backing services, registries, and repositories (outbound access).</li><li> Has an automatically generated certificate for Transport Layer Service (TLS).</li></ul>
+A project is a grouping of {{site.data.keyword.codeengineshort}} entities such as applications, jobs, and builds. A project is based on a Kubernetes namespace. The name of your project must be unique within your {{site.data.keyword.cloud}} resource group, user account, and region. Projects are used to manage resources and provide access to its entities. 
+
+A project provides the following items. 
+
+- Provides a unique namespace for entity names.
+- Manages access to project resources (inbound access).
+- Manages access to backing services, registries, and repositories (outbound access).
+- Has an automatically generated certificate for Transport Layer Service (TLS).
 
 For more information about working with projects, see [Managing projects](/docs/codeengine?topic=codeengine-manage-project).
 
@@ -2995,7 +3166,7 @@ You can use either `project` or `proj` in your `project` commands. To see CLI he
 Create a project.  
   
 ```
-ibmcloud ce project create --name PROJECT_NAME [--no-select] [--no-wait] [--output OUTPUT] [--quiet] [--tag TAG] [--wait] [--wait-timeout WAIT_TIMEOUT]
+ibmcloud ce project create --name PROJECT_NAME [--endpoint ENDPOINT] [--no-select] [--no-wait] [--output OUTPUT] [--quiet] [--tag TAG] [--wait] [--wait-timeout WAIT_TIMEOUT]
 ```
 {: pre}
 
@@ -3009,6 +3180,9 @@ ibmcloud ce project create --name PROJECT_NAME [--no-select] [--no-wait] [--outp
    - Only these special characters: spaces ( ), periods (.), colons (:), underscores (\_), and hyphens (-).
 
    This value is *required*. 
+
+`--endpoint`, `-e`
+:   The endpoint for the project. Valid values are `public` and `private`. If the `--endpoint` option is not explicitly specified, the behavior is determined by the system. If the {{site.data.keyword.cloud_notm}} CLI is connected to `private.cloud.ibm.com`, the {{site.data.keyword.codeengineshort}} project behaves as if `--endpoint` is `private`. If the {{site.data.keyword.cloud_notm}} CLI is connected to `cloud.ibm.com`, the {{site.data.keyword.codeengineshort}} project behaves as if `--endpoint` is `public`. This value is *optional*. 
 
 `--no-select`, `--ns`
 :   Do not select the project as the current context after this project is created. If you do not select this option, the project is automatically selected. This value is *optional*. The default value is `false`.
@@ -3338,18 +3512,21 @@ OK
 Select a project as the current context. The project must be in `active` status before it can be selected.  
   
 ```
-ibmcloud ce project select (--name PROJECT_NAME | --id PROJECT_ID) [--kubecfg] [--quiet]
+ibmcloud ce project select (--name PROJECT_NAME | --id PROJECT_ID) [--endpoint ENDPOINT] [--kubecfg] [--quiet]
 ```
 {: pre}
 
 #### Command Options  
  {: #cmd-options-project-select} 
 
+`--endpoint`, `-e`
+:   The endpoint for the project. Valid values are `public` and `private`. If the `--endpoint` option is not explicitly specified, the behavior is determined by the system. If the {{site.data.keyword.cloud_notm}} CLI is connected to `private.cloud.ibm.com`, the {{site.data.keyword.codeengineshort}} project behaves as if `--endpoint` is `private`. If the {{site.data.keyword.cloud_notm}} CLI is connected to `cloud.ibm.com`, the {{site.data.keyword.codeengineshort}} project behaves as if `--endpoint` is `public`. This value is *optional*. 
+
 `--id`, `--guid`
 :   The ID of the project. This value is required if `--name` is not specified. 
 
 `--kubecfg`, `-k`
-:   Append the project to the default Kubernetes configuration file. This value is *optional*. The default value is `false`.
+:   Append the project to the Kubernetes configuration file. You can override the default Kubernetes configuration file by setting the `KUBECONFIG` environment variable. This value is *optional*. The default value is `false`.
 
 `--name`, `-n`
 :   The name of the project. This value is required if `--id` is not specified. 
@@ -3643,7 +3820,7 @@ ibmcloud ce reclamation restore (--name PROJECT_NAME | --id PROJECT_ID) [--no-wa
  {: #cmd-options-reclamation-restore} 
 
 `--id`, `--guid`
-:   The ID of the project. This value is required if `--name is not specified. 
+:   The ID of the project. This value is required if `--name` is not specified. 
 
 `--name`, `-n`
 :   The name of the project. This value is required if `--id` is not specified. 
@@ -4344,12 +4521,12 @@ OK
 newapp-mytest-00002-deployment-7c87cfbf66-xnwkp:
 Type     Reason     Age                Source                Messages
 Normal   Scheduled  65s                default-scheduler     Successfully assigned bz8i2yh012p/newapp-mytest-00002-deployment-7c87cfbf66-xnwkp to 10.243.0.60
-Normal   Pulling    63s                kubelet, 10.243.0.60  Pulling image "index.docker.io/ibmcom/codeengine@sha256:b3150372958ab68eea5356a8cab31069ca5293c45959d64f6aaabbccddeeff123"
+Normal   Pulling    63s                kubelet, 10.243.0.60  Pulling image "icr.io/codeengine/codeengine@sha256:b3150372958ab68eea5356a8cab31069ca5293c45959d64f6aaabbccddeeff123"
 Normal   Created    60s                kubelet, 10.243.0.60  Created container queue-proxy
 Normal   Created    60s                kubelet, 10.243.0.60  Created container user-container
 Normal   Started    60s                kubelet, 10.243.0.60  Started container user-container
 Normal   Pulled     60s                kubelet, 10.243.0.60  Container image "icr.io/obs/codeengine/knative-serving/knative.dev/serving/cmd/queue:v0.20.0-rc11@sha256:3fedfa9d9cdd74e85d11d4167043f13902074946caf415d16ff537620f04931a" already present on machine
-Normal   Pulled     60s                kubelet, 10.243.0.60  Successfully pulled image "index.docker.io/ibmcom/codeengine@sha256:b3150372958ab68eea5356a8cab31069ca5293c45959d64f6aaabbccddeeff123" in 2.67237432s
+Normal   Pulled     60s                kubelet, 10.243.0.60  Successfully pulled image "icr.io/codeengine/codeengine@sha256:b3150372958ab68eea5356a8cab31069ca5293c45959d64f6aaabbccddeeff123" in 2.67237432s
 Normal   Started    60s                kubelet, 10.243.0.60  Started container queue-proxy
 Normal   Pulling    60s                kubelet, 10.243.0.60  Pulling image "icr.io/obs/codeengine/istio/proxyv2:1.9.1-rc7"
 Normal   Pulled     59s                kubelet, 10.243.0.60  Successfully pulled image "icr.io/obs/codeengine/istio/proxyv2:1.9.1-rc7" in 666.211288ms
@@ -4410,7 +4587,7 @@ Environment Variables:
     Type                      Name               Value
     ConfigMap full reference  mycolorconfigmap 
     Literal                   TARGET             Sunshine
-Image:                  docker.io/ibmcom/codeengine
+Image:                  icr.io/codeengine/codeengine
 Resource Allocation:
     CPU:                1
     Ephemeral Storage:  500Mi
@@ -4618,7 +4795,7 @@ OK
 ```
 {: screen}
 
-#### Example
+#### Example of a secret with values from a file
 {: #secret-create-example2}
 
 The following example creates a secret that is named `mysecret-fromfile` with values from a file.
@@ -4628,7 +4805,7 @@ ibmcloud ce secret create --name mysecret-fromfile  --from-file ./username.txt -
 ```
 {: pre}
 
-#### Example output
+##### Example output of a secret with values from a file
 {: #secret-create-example2-output}
 
 ```sh
@@ -5551,4 +5728,5 @@ commit:   3ab130b746f4784c9ff8d3da7bb05b6e7acda6d5
 {: screen}  
   
   
+
 
