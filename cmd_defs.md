@@ -1,8 +1,8 @@
 ---
 
 copyright:
-  years: 2022
-lastupdated: "2022-11-21"
+  years: 2023
+lastupdated: "2023-02-22"
 
 keywords: cli for code engine, command-line interface for code engine, cli commands for code engine, reference for code engine cli, ibmcloud ce, ibmcloud codeengine, commands, code engine cli, apps, jobs, source code, configmap, build repository, build, secret, image repository, registry, example, example output
 
@@ -36,7 +36,7 @@ To run {{site.data.keyword.codeenginefull_notm}} commands, use `ibmcloud code-en
 ## Application commands  
 {: #cli-application}  
 
-An application, or app, runs your code to serve HTTP requests. In addition to traditional HTTP requests, {{site.data.keyword.codeenginefull}} also supports applications that use WebSockets as their communications protocol. The number of running instances of an app are automatically scaled up or down (to zero) based on incoming workloads and your configuration settings. An app contains one or more revisions. A revision represents an immutable version of the configuration properties of the app. Each update of an app configuration property creates a new revision of the app. 
+An application, or app, runs your code to serve HTTP requests. In addition to traditional HTTP requests, {{site.data.keyword.codeenginefull}} also supports applications that use WebSockets as their communications protocol. The number of running instances of an app are automatically scaled up or down (to zero) based on incoming requests and your configuration settings. An app contains one or more revisions. A revision represents an immutable version of the configuration properties of the app. Each update of an app configuration property creates a new revision of the app. 
 {: shortdesc}
 
 You must be within the context of a [project](#cli-project) before you use `application` commands.
@@ -4121,7 +4121,9 @@ You must be within the context of a [project](#cli-project) before you use `regi
 For more information about accessing registries, see [Adding access to a private container registry](/docs/codeengine?topic=codeengine-add-registry).
 
 To see CLI help for the `registry` commands, run `ibmcloud ce registry -h`.
-{: tip}  
+{: tip}
+
+  
   
 ### `ibmcloud ce registry create`  
 {: #cli-registry-create}  
@@ -4406,7 +4408,9 @@ You must be within the context of a [project](#cli-project) before you use `repo
 For more information about accessing repositories, see [Accessing private code repositories](/docs/codeengine?topic=codeengine-code-repositories).
 
 To see CLI help for the `repo` commands, run `ibmcloud ce repo -h`.
-{: tip}  
+{: tip}
+
+  
   
 ### `ibmcloud ce repo create`  
 {: #cli-repo-create}  
@@ -4988,7 +4992,10 @@ You must be within the context of a [project](#cli-project) before you use `secr
 For more information about working with secrets, see [Setting up and using secrets and configmaps](/docs/codeengine?topic=codeengine-configmap-secret).
 
 To see CLI help for the `secret` commands, run `ibmcloud ce secret -h`.
-{: tip}  
+{: tip}
+
+
+  
   
 ### `ibmcloud ce secret create`  
 {: #cli-secret-create}  
@@ -5272,11 +5279,8 @@ OK
 ## Subscription cos commands  
 {: #cli-subscription-cos}  
 
-Oftentimes in distributed environments you want your applications or jobs to react to messages (events) that are generated from other components, which are usually called event producers. With {{site.data.keyword.codeengineshort}}, your applications or jobs can receive events of interest by subscribing to event producers. 
+Oftentimes in distributed environments you want your applications or jobs to react to messages (events) that are generated from other components, which are usually called event producers. With {{site.data.keyword.codeengineshort}}, your applications or jobs can receive events of interest by subscribing to event producers. Event information is received as POST HTTP requests for applications and as environment variables for jobs.
 {: shortdesc}
-
-Event information is received as POST HTTP requests for applications and as environment variables for jobs.
-
 
 The {{site.data.keyword.cos_short}} event producer generates events as changes are made to the objects in your object storage buckets. For example, as objects are added to a bucket, an application can receive an event and then perform an action based on that change, perhaps consuming that new object.
 
@@ -5607,11 +5611,8 @@ OK
 ## Subscription cron commands  
 {: #cli-subscription-cron}  
 
-Oftentimes in distributed environments you want your applications or jobs to react to messages (events) that are generated from other components, which are usually called event producers. With {{site.data.keyword.codeengineshort}}, your applications or jobs can receive events of interest by subscribing to event producers. 
+Oftentimes in distributed environments you want your applications or jobs to react to messages (events) that are generated from other components, which are usually called event producers. With {{site.data.keyword.codeengineshort}}, your applications or jobs can receive events of interest by subscribing to event producers. Event information is received as POST HTTP requests for applications and as environment variables for jobs.
 {: shortdesc}
-
-Event information is received as POST HTTP requests for applications and as environment variables for jobs.
-
 
 The cron event producer is based on cron and generates an event at regular intervals. Use a cron event producer when an action needs to be taken at well-defined intervals or at specific times.
 
@@ -5947,14 +5948,11 @@ OK
 ```
 {: screen}  
   
-## Subscription kafka commands  
+## Subscription `kafka` commands  
 {: #cli-subscription-kafka}  
 
-Oftentimes in distributed environments you want your applications or jobs to react to messages (events) that are generated from other components, which are usually called event producers. With {{site.data.keyword.codeengineshort}}, your applications or jobs can receive events of interest by subscribing to event producers. 
+Oftentimes in distributed environments you want your applications or jobs to react to messages (events) that are generated from other components, which are usually called event producers. With {{site.data.keyword.codeengineshort}}, your applications or jobs can receive events of interest by subscribing to event producers. Event information is received as POST HTTP requests for applications and as environment variables for jobs.
 {: shortdesc}
-
-Event information is received as POST HTTP requests for applications and as environment variables for jobs.
-
 
 The Kafka event producer watches for new messages to appear in a Kafka instance. When you create a {{site.data.keyword.codeengineshort}} Kafka subscription for a set of topics, your app or job receives a separate event for each new message that appears in one of the topics.
 
