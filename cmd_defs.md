@@ -2,7 +2,7 @@
 
 copyright:
   years: 2023
-lastupdated: "2023-03-09"
+lastupdated: "2023-03-16"
 
 keywords: cli for code engine, command-line interface for code engine, cli commands for code engine, reference for code engine cli, ibmcloud ce, ibmcloud codeengine, commands, code engine cli, apps, jobs, source code, configmap, build repository, build, secret, image repository, registry, example, example output
 
@@ -4122,8 +4122,8 @@ For more information about accessing registries, see [Adding access to a private
 To see CLI help for the `registry` commands, run `ibmcloud ce registry -h`.
 
 
-Beginning with CLI version X.Y.Z, defining and working with secrets in the CLI is unified under the **`secret`** command group. See [**`ibmcloud ce secret`**](/docs/codeengine?topic=codeengine-cli#cli-secret-create) commands. Use the `--format` option to specify the category of secret, such as `basic_auth`, `generic`, `ssh`, `tls`, or `registry`. 
-While you can continue to use the **`registry`** command group, take advantage of the unified **`secrets`** command group.
+Beginning with CLI version 1.42.0, defining and working with secrets in the CLI is unified under the **`secret`** command group. See [**`ibmcloud ce secret`**](/docs/codeengine?topic=codeengine-cli#cli-secret-create) commands. Use the `--format` option to specify the category of secret, such as `basic_auth`, `generic`, `ssh`, `tls`, or `registry`. 
+While you can continue to use the **`registry`** command group, take advantage of the unified **`secret`** command group.
 To create a secret to access a container registry, use the [**`ibmcloud ce secret create --format registry`**](/docs/codeengine?topic=codeengine-cli#cli-secret-create) command. To learn more about working with secrets in {{site.data.keyword.codeengineshort}}, see [Working with secrets](/docs/codeengine?topic=codeengine-secret).
 {: important}
 
@@ -4414,7 +4414,7 @@ For more information about accessing repositories, see [Accessing private code r
 To see CLI help for the `repo` commands, run `ibmcloud ce repo -h`.
 
 
-Beginning with CLI version X.Y.Z, defining and working with secrets in the CLI is unified under the **`secret`** command group. See [**`ibmcloud ce secret`**](/docs/codeengine?topic=codeengine-cli#cli-secret-create) commands. Use the `--format` option to specify the category of secret, such as `basic_auth`, `generic`, `ssh`, `tls`, or `registry`. While you can continue to use the **`repo`** command group, take advantage of the unified **`secrets`** command group. To create a secret to access a service with an SSH key, such as to authenticate to a Git repository like GitHub or GitLab, use the [**`ibmcloud ce secret create --format ssh`**](/docs/codeengine?topic=codeengine-cli#cli-secret-create) command. An SSH secret is also used as a Git repository access secret. To learn more about working with secrets in {{site.data.keyword.codeengineshort}}, see [Working with secrets](/docs/codeengine?topic=codeengine-secret).
+Beginning with CLI version 1.42.0, defining and working with secrets in the CLI is unified under the **`secret`** command group. See [**`ibmcloud ce secret`**](/docs/codeengine?topic=codeengine-cli#cli-secret-create) commands. Use the `--format` option to specify the category of secret, such as `basic_auth`, `generic`, `ssh`, `tls`, or `registry`. While you can continue to use the **`repo`** command group, take advantage of the unified **`secret`** command group. To create a secret to access a service with an SSH key, such as to authenticate to a Git repository like GitHub or GitLab, use the [**`ibmcloud ce secret create --format ssh`**](/docs/codeengine?topic=codeengine-cli#cli-secret-create) command. An SSH secret is also used as a Git repository access secret. To learn more about working with secrets in {{site.data.keyword.codeengineshort}}, see [Working with secrets](/docs/codeengine?topic=codeengine-secret).
 {: important}
 
   
@@ -5000,7 +5000,7 @@ For more information about working with secrets, see [Setting up and using secre
 
 To see CLI help for the `secret` commands, run `ibmcloud ce secret -h`.
 
-Beginning with CLI version X.Y.Z, defining and working with secrets in the CLI is unified under the **`secret`** command group. Use the `--format` option to specify the category of secret, such as `basic_auth`, `generic`, `ssh`, `tls`, or `registry`. The default value for the `--format` option is `generic`. 
+Beginning with CLI version 1.42.0, defining and working with secrets in the CLI is unified under the **`secret`** command group. Use the `--format` option to specify the category of secret, such as `basic_auth`, `generic`, `ssh`, `tls`, or `registry`. The default value for the `--format` option is `generic`. 
 {: important}
 
   
@@ -5019,28 +5019,28 @@ ibmcloud ce secret create --name SECRET_NAME (--from-env-file FILE | --from-file
  {: #cmd-options-secret-create} 
 
 `--cert-chain-file`, `--ccf`
-:   Specify a file containing the certificate chain provided by your certificate authority for a TLS secret. You must provide the path to the file as a value. This value is *optional*. 
+:   Specify a file containing the certificate chain provided by your certificate authority for a TLS secret. You must provide the path to the file as a value. This value is required for `tls` secrets. This value is *optional*. 
 
 `--email`, `--em`
-:   The email address to access the registry server for a registry secret. This value is *optional*. 
+:   The email address to access the registry server for a registry secret. This value applies only for `registry` secrets. This value is *optional*. 
 
 `--format`, `--fo`
 :   The format of the secret. Valid values are `basic_auth`, `generic`, `registry`, `ssh`, or `tls`. This value is *optional*. The default value is `generic`.
 
 `--from-env-file`, `-e`
-:   Create a generic secret from a file which contains one or more lines that match the format `KEY=VALUE`. You must provide the path to the file as a value. Each line from the specified file is added as a key-value pair. Any lines in the specified file that are empty or begin with `#` are ignored. This value is required if `--from-literal` or `--from-file` is not specified. This option can be specified multiple times. 
+:   Create a generic secret from a file which contains one or more lines that match the format `KEY=VALUE`. You must provide the path to the file as a value. Each line from the specified file is added as a key-value pair. Any lines in the specified file that are empty or begin with `#` are ignored. This value is required if `--from-literal` or `--from-file` is not specified. This option can be specified multiple times. This value applies only for `generic` secrets. 
 
 `--from-file`, `-f`
-:   Create a generic secret from a file. You must provide the path to the file as a value. This value is required if `--from-literal` or `--from-env-file` is not specified. This option can be specified multiple times. 
+:   Create a generic secret from a file. You must provide the path to the file as a value. This value is required if `--from-literal` or `--from-env-file` is not specified. This option can be specified multiple times. This value applies only for `generic` secrets. 
 
 `--from-literal`, `-l`
-:   Create a generic secret from a key-value pair. Must be in `KEY=VALUE` format. This value is required if `--from-file` or `--from-env-file` is not specified. This option can be specified multiple times. 
+:   Create a generic secret from a key-value pair. Must be in `KEY=VALUE` format. This value is required if `--from-file` or `--from-env-file` is not specified. This option can be specified multiple times. This value applies only for `generic` secrets. 
 
 `--key-path`, `--kp`
-:   The path to your unencrypted SSH private key file for an SSH secret. If you use your personal private SSH key, then this file is usually located at `$HOME/.ssh/id_rsa` (Mac OS or Linux) or at `%HOMEPATH%\.ssh\id_rsa` (Windows). This value is *optional*. 
+:   The path to your unencrypted SSH private key file for an SSH secret. If you use your personal private SSH key, then this file is usually located at `$HOME/.ssh/id_rsa` (Mac OS or Linux) or at `%HOMEPATH%\.ssh\id_rsa` (Windows). This value is required for `ssh` secrets. This value is *optional*. 
 
 `--known-hosts-path`, `--khp`
-:   The path to your known hosts file for an SSH secret. This value is a security feature to ensure that the private key is only used to authenticate at hosts that you previously accessed, specifically, the GitHub or GitLab hosts. This file is usually located at `$HOME/.ssh/known_hosts` (Mac OS or Linux) or at `%HOMEPATH%\.ssh\known_hosts` (Windows). This value is *optional*. 
+:   The path to your known hosts file for an SSH secret. This value is a security feature to ensure that the private key is only used to authenticate at hosts that you previously accessed, specifically, the GitHub or GitLab hosts. This file is usually located at `$HOME/.ssh/known_hosts` (Mac OS or Linux) or at `%HOMEPATH%\.ssh\known_hosts` (Windows). This value applies only for `ssh` secrets. This value is *optional*. 
 
 `-n`, `--name`
 :   The name of the secret. Use a name that is unique within the project.
@@ -5054,25 +5054,25 @@ ibmcloud ce secret create --name SECRET_NAME (--from-env-file FILE | --from-file
 :   Specifies the format of the command output. Valid values are `json`, `yaml`, `jsonpath=JSONPATH_EXPRESSION`, and `jsonpath-as-json=JSONPATH_EXPRESSION`. Use `jsonpath` to specify the path to an element of the JSON output. This value is *optional*. 
 
 `--password`, `--pw`
-:   The password for a basic auth or registry secret. If neither `--password`, nor `--password-from-file`, nor `--password-from-json-file` option is specified, then you are prompted for the password. This value is *optional*. 
+:   The password for a basic auth or registry secret. If neither `--password`, nor `--password-from-file`, nor `--password-from-json-file` option is specified, then you are prompted for the password. This value is required for `basic_auth` and `registry` secrets. This value is *optional*. 
 
 `--password-from-file`, `--spf`
-:   The path to a file containing the password for a basic auth or registry secret. The first line of the file is used for the password. If neither `--password`, nor `--password-from-file`, nor `--password-from-json-file` option is specified, then you are prompted for the password. You must provide the path to the file as a value. This value is *optional*. 
+:   The path to a file containing the password for a basic auth or registry secret. The first line of the file is used for the password. If neither `--password`, nor `--password-from-file`, nor `--password-from-json-file` option is specified, then you are prompted for the password. You must provide the path to the file as a value. This value is required for `basic_auth` and `registry` secrets. This value is *optional*. 
 
 `--password-from-json-file`, `--spfj`
-:   The path to a JSON file containing the password for a basic auth or registry secret. The `apikey` field is used for the password. If neither `--password`, nor `--password-from-file`, nor `--password-from-json-file` option is specified, then you are prompted for the password. You must provide the path to the file as a value. This value is *optional*. 
+:   The path to a JSON file containing the password for a basic auth or registry secret. The `apikey` field is used for the password. If neither `--password`, nor `--password-from-file`, nor `--password-from-json-file` option is specified, then you are prompted for the password. You must provide the path to the file as a value. This value is required for `basic_auth` and `registry` secrets. This value is *optional*. 
 
 `--private-key-file`, `--pkf`
-:   Specify a file containing the private key for a TLS secret that matches the specified certificate chain with the `cert-chain-file` option. You must provide the path to the file as a value. This value is *optional*. 
+:   Specify a file containing the private key for a TLS secret that matches the specified certificate chain with the `cert-chain-file` option. You must provide the path to the file as a value. This value is required for `tls` secrets. This value is *optional*. 
 
 `--quiet`, `-q`
-:   Specify this option to reduce the output of the command. This value is *optional*. The default value is `false`.
+:   Specify this option to reduce the output of the command. This option applies for `basic_auth`, `generic`, `registry`, `ssh`, and `tls` secrets. This value is *optional*. The default value is `false`.
 
 `--server`, `-s`
-:   The URL of the registry server for a registry secret. This value is *optional*. The default value is `us.icr.io`.
+:   The URL of the registry server for a registry secret. This option is required for `registry` secrets. This value is *optional*. The default value is `us.icr.io`.
 
 `--username`, `-u`
-:   The username for your basic auth or registry secret. This value is *optional*. 
+:   The username for your basic auth or registry secret. This option is required for `basic_auth` and `registry` secrets. This value is *optional*. 
 
  
   
@@ -5080,6 +5080,8 @@ ibmcloud ce secret create --name SECRET_NAME (--from-env-file FILE | --from-file
 {: #secret-create-basicauth-example}
 
 A basic auth secret contains a `username` and `password` key and is used when you access a service that requires basic HTTP authentication. 
+
+To see CLI help for creating a basic auth secret, run `ibmcloud ce secret create --format basic_auth`.
 
 The following example creates a basic auth secret that is named `mysecret-basicauth`. This secret contains the username `myusername`, and the password value is obtained from a file on the local machine. If the password is not provided from a file or a JSON file, then you are prompted to enter the password value. 
 
@@ -5102,9 +5104,12 @@ OK
 
 A generic secret stores simple key-value pairs and {{site.data.keyword.codeengineshort}} makes no assumptions about the defined key-value pairs nor about the intended use of the secret.
 
-The following example creates a generic secret that is named `mysecret-generic` and the value of this secret is specified for a key-value pair with the `--from-literal` option. 
+To see CLI help for creating a generic secret, run `ibmcloud ce secret create` or `ibmcloud ce secret create --format generic`.
 
 Note that `--format generic` is the default when you create a secret with the  **`secret create`** command in the CLI.
+
+The following example creates a generic secret that is named `mysecret-generic` and the value of this secret is specified for a key-value pair with the `--from-literal` option. 
+
 
 ```txt
 ibmcloud ce secret create --name mysecret-generic --format generic --from-literal "TARGET=My literal secret"
@@ -5144,6 +5149,8 @@ OK
 
 A registry secret stores credentials to access a container registry. 
 
+To see CLI help for creating a registry secret, run `ibmcloud ce secret create --format registry`.
+
 The following example creates a registry secret that is named `mysecret-registry` to an {{site.data.keyword.registryfull_notm}} instance that is on the `us.icr.io` registry server and specifies credentials for `username` and `password`.
 
 ```txt
@@ -5163,7 +5170,9 @@ OK
 #### Example of an SSH secret
 {: #secret-create-ssh-example}
 
-An SSH secret stores credentials to authenticate to a service with an SSH key; for example, authenticating to a Git repository, such as GitHub or GitLab.  
+An SSH secret stores credentials to authenticate to a service with an SSH key; for example, authenticating to a Git repository, such as GitHub or GitLab.
+
+To see CLI help for creating an SSH secret, run `ibmcloud ce secret create --format ssh`.
 
 The following example creates an SSH secret that is named `mysecret-ssh` for a host that is included in the `known_hosts` file, and authenticates with an unencrypted SSH private key file located at `/<filepath>/.ssh/<key_name>`, where `<filepath>` is the path on your system.
 
@@ -5186,7 +5195,9 @@ OK
 
 A Transport Layer Security (TLS) secret contains a signed TLS certificate, including all its intermediate certificates, and its corresponding private key from a certificate authority (CA). Use TLS secrets when you work with custom domain mappings.
 
-The following example creates an TLSsecret that is named `mysecret-tls`. The certificate chain that corresponds to the custom domain is contained in the file `certificate.txt` and the matching private key file is contained in the file `privatekey.txt`. Both of these files are located in the root directory of the local workstation.  
+To see CLI help for creating a TLS secret, run `ibmcloud ce secret create --format tls`.
+
+The following example creates an TLS secret that is named `mysecret-tls`. The certificate chain that corresponds to the custom domain is contained in the file `certificate.txt` and the matching private key file is contained in the file `privatekey.txt`. Both of these files are located in the root directory of the local workstation.
 
 
 ```txt
