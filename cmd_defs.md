@@ -2,7 +2,7 @@
 
 copyright:
   years: 2023
-lastupdated: "2023-06-29"
+lastupdated: "2023-07-06"
 
 keywords: cli for code engine, command-line interface for code engine, cli commands for code engine, reference for code engine cli, ibmcloud ce, ibmcloud codeengine, commands, code engine cli, apps, jobs, source code, configmap, build repository, build, secret, image repository, registry, example, example output
 
@@ -2927,7 +2927,7 @@ ibmcloud ce function update --name FUNCTION_NAME [--build-clear] [--build-commit
 :   The runtime to use for the function. This value is either a managed runtime identifier or an image reference URL. See [Runtimes](/docs/codeengine?topic=codeengine-fun-runtime). This value is *optional*. 
 
 `--runtime-secret`, `--rs`
-:   The name of the registry secret that is used to authenticate with a private registry to pull a custom runtime. Run 'ibmcloud ce registry create' to create a registry secret. This value is *optional*. 
+:   The name of the registry secret that is used to authenticate with a private registry to pull a custom runtime. Run `ibmcloud ce registry create` to create a registry secret. This value is *optional*. 
 
 `--runtime-type`, `--rt`
 :   The type of runtime to use. Valid values are `managed` and `custom`. See [Runtimes](/docs/codeengine?topic=codeengine-fun-runtime). This value is *optional*. The default value is `managed`.
@@ -7031,7 +7031,7 @@ OK
 ```
 {: screen}  
   
-## Subscription kafka commands  
+## Subscription `kafka` commands  
 {: #cli-subscription-kafka}  
 
 Oftentimes in distributed environments you want your applications or jobs to react to messages (events) that are generated from other components, which are usually called event producers. With {{site.data.keyword.codeengineshort}}, your applications or jobs can receive events of interest by subscribing to event producers. Event information is received as POST HTTP requests for applications and as environment variables for jobs.
