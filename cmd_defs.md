@@ -2,7 +2,7 @@
 
 copyright:
   years: 2023
-lastupdated: "2023-07-06"
+lastupdated: "2023-07-26"
 
 keywords: cli for code engine, command-line interface for code engine, cli commands for code engine, reference for code engine cli, ibmcloud ce, ibmcloud codeengine, commands, code engine cli, apps, jobs, source code, configmap, build repository, build, secret, image repository, registry, example, example output
 
@@ -1786,7 +1786,7 @@ OK
 ## Configmap commands  
 {: #cli-configmap}  
 
-A configmap provides a method to include non-sensitive data information to your deployment. By referencing values from your configmap as environment variables, you can decouple specific information from your deployment and keep your app or job portable. A configmap contains information in key-value pairs. Use `configmap` commands to create, display details, update, and delete configmaps.
+A configmap provides a method to include non-sensitive data information to your deployment. By referencing values from your configmap as environment variables, you can decouple specific information from your deployment and keep your app, job, or function portable. A configmap contains information in key-value pairs. Use `configmap` commands to create, display details, update, and delete configmaps.
 {: shortdesc}
 
 You must be within the context of a [project](#cli-project) before you use `configmap` commands.
@@ -2352,7 +2352,7 @@ Updating domainmapping 'www.example.com'...
 ## Function commands  
 {: #cli-function}  
 
-A Function is a stateless code snippet that performs tasks in response to an HTTP request. With IBM Code Engine Functions, you can run your business logic in a scalable and serverless way. IBM Code Engine Functions provide an optimized runtime environment to support low latency and rapid scale-out scenarios. Your Function code can be written in in Node.js or Python, which are optimized to run in IBM Code Engine Functions. In addition, your Function code can be written for any OpenWhisk compatible runtime environment or a custom runtime image.
+A Function is a stateless code snippet that performs tasks in response to an HTTP request. With IBM Code Engine Functions, you can run your business logic in a scalable and serverless way. IBM Code Engine Functions provide an optimized runtime environment to support low latency and rapid scale-out scenarios. Your Function code can be written in a managed runtime that includes specific [Node.js or Python](/docs/codeengine?topic=codeengine-fun-runtime) versions.
 {: shortdesc}
 
 You must be within the context of a [project](#cli-project) before you use `function` commands.
@@ -2428,7 +2428,7 @@ OK
 Create a function.  
   
 ```txt
-ibmcloud ce function create --name FUNCTION_NAME [--build-commit BUILD_COMMIT] [--build-context-dir BUILD_CONTEXT_DIR] [--build-git-repo-secret BUILD_GIT_REPO_SECRET] [--build-source BUILD_SOURCE] [--build-strategy BUILD_STRATEGY] [--build-timeout BUILD_TIMEOUT] [--code-bundle CODE_BUNDLE] [--code-bundle-secret CODE_BUNDLE_SECRET] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-secret ENV_FROM_SECRET] [--force] [--inline-code INLINE_CODE] [--main MAIN] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--no-wait] [--output OUTPUT] [--quiet] [--runtime RUNTIME] [--runtime-secret RUNTIME_SECRET] [--runtime-type RUNTIME_TYPE] [--wait] [--wait-timeout WAIT_TIMEOUT]
+ibmcloud ce function create --name FUNCTION_NAME [--build-commit BUILD_COMMIT] [--build-context-dir BUILD_CONTEXT_DIR] [--build-git-repo-secret BUILD_GIT_REPO_SECRET] [--build-source BUILD_SOURCE] [--build-timeout BUILD_TIMEOUT] [--code-bundle CODE_BUNDLE] [--code-bundle-secret CODE_BUNDLE_SECRET] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-secret ENV_FROM_SECRET] [--force] [--inline-code INLINE_CODE] [--main MAIN] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--no-wait] [--output OUTPUT] [--quiet] [--runtime RUNTIME] [--wait] [--wait-timeout WAIT_TIMEOUT]
 ```
 {: pre}
 
@@ -2445,7 +2445,7 @@ ibmcloud ce function create --name FUNCTION_NAME [--build-commit BUILD_COMMIT] [
    This value is *required*. 
 
 `--runtime`, `-r`
-:   The runtime to use for the function. This value is either a managed runtime identifier or an image reference URL. See [Runtimes](/docs/codeengine?topic=codeengine-fun-runtime). This value is *required*. 
+:   The runtime to use for the function. To find supported runtimes for this region, run `ibmcloud ce function runtimes`. See [Runtimes](/docs/codeengine?topic=codeengine-fun-runtime). This value is *required*. 
 
 `--build-commit`, `--commit`, `--bcm`, `--cm`, `--revision`
 :   The commit, tag, or branch in the source repository to pull. This value is *optional*. 
@@ -2454,19 +2454,16 @@ ibmcloud ce function create --name FUNCTION_NAME [--build-commit BUILD_COMMIT] [
 :   The directory in the repository that contains the source code for your function. This value is *optional*. 
 
 `--build-git-repo-secret`, `--git-repo-secret`, `--bgrs`, `--grs`, `--repo`
-:   The name of the SSH secret, which contains the credentials to access the private repository that contains the source code to build your container image. To create this SSH secret, use the `secret create --format SSH` command. An SSH secret is also used as a Git repository access secret. This option is allowed only if the `--build-source` option is set to the URL of a Git repository. This value is *optional*. 
+:   The name of the SSH secret, which contains the credentials to access the private repository that contains the source code to build your code-bundle image. To create this SSH secret, use the `secret create --format SSH` command. An SSH secret is also used as a Git repository access secret. This option is allowed only if the `--build-source` option is set to the URL of a Git repository. This value is *optional*. 
 
 `--build-source`, `--source`, `--bsrc`, `--src`
 :   The URL of the Git repository or the path to local source that contains your source code; for example `https://github.com/IBM/CodeEngine` or `.`. This value is *optional*. 
-
-`--build-strategy`, `--strategy`, `--bstr`, `--str`
-:   The strategy to use for building the image. This option is required only if a build strategy must be chosen for a custom runtime. See [Runtime](/docs/codeengine?topic=codeengine-fun-runtime). This value is *optional*. 
 
 `--build-timeout`, `--bto`
 :   The amount of time, in seconds, that can pass before the build must succeed or fail. This value is *optional*. The default value is `600`.
 
 `--code-bundle`, `--cb`
-:   The name of the `code-bundle` image that is used for build push of the function. The format is `REGISTRY/NAMESPACE/REPOSITORY:TAG` where `REGISTRY` and `TAG` are optional. If `REGISTRY` is not specified, the default is `docker.io`. If `TAG` is not specified, the default is `latest`. This value is *optional*. 
+:   The name of the `code-bundle` image to use for this function. When `build-source` is specified, this value is the path to the output image generated by the build push. When `build-source` is not specified, this value is the path to the existing code-bundle image. The format is `REGISTRY/NAMESPACE/REPOSITORY:TAG` where `REGISTRY` and `TAG` are optional. If `REGISTRY` is not specified, the default is `docker.io`. If `TAG` is not specified, the default is `latest`. This value is *optional*. 
 
 `--code-bundle-secret`, `--cs`, `--cbs`
 :   The name of the registry secret that is used to authenticate with a private registry. You can add the registry secret by running the `registry create` command. This value is *optional*. 
@@ -2497,13 +2494,13 @@ ibmcloud ce function create --name FUNCTION_NAME [--build-commit BUILD_COMMIT] [
 :   Do not verify the existence of specified configmap and secret references. This value is *optional*. The default value is `false`.
 
 `--inline-code`
-:   Specify the path to a file containing the source code for your function. The code is stored inline with the function. This value is *optional*. 
+:   Specify the path to a file that contains the source code for your function. The code is stored inline with the function. This value is *optional*. 
 
 `--main`, `--fn-main`
 :   Specify the name of your main function in the provided source code. This option is required when the name is not `main`. This value is *optional*. The default value is `main`.
 
 `--maxexecutiontime`, `--met`
-:   The maximum execution time in seconds for this function to complete its run. This value is *optional*. The default value is `60`.
+:   The maximum amount of time in seconds for this function to complete its run. This value is *optional*. The default value is `60`.
 
 `--memory`, `-m`
 :   The amount of memory that is set for the function. Use `M` for megabytes or `G` for gigabytes. For valid values, see [Supported memory and CPU combinations](/docs/codeengine?topic=codeengine-mem-cpu-combo). This value is *optional*. The default value is `1G`.
@@ -2516,12 +2513,6 @@ ibmcloud ce function create --name FUNCTION_NAME [--build-commit BUILD_COMMIT] [
 
 `--quiet`, `-q`
 :   Specify this option to reduce the output of the command. This value is *optional*. The default value is `false`.
-
-`--runtime-secret`, `--rs`
-:   The name of the registry secret that is used to authenticate with a private registry to pull a custom runtime. This value is *optional*. 
-
-`--runtime-type`, `--rt`
-:   The type of runtime to use for the function. Valid values are `managed` and `custom`. See [Runtime](/docs/codeengine?topic=codeengine-fun-runtime). This value is *optional*. The default value is `managed`.
 
 `--wait`, `-w`
 :   Wait for the build run to complete. This value is *optional*. The default value is `true`.
@@ -2822,7 +2813,7 @@ OK
 Update a function.  
   
 ```txt
-ibmcloud ce function update --name FUNCTION_NAME [--build-clear] [--build-commit BUILD_COMMIT] [--build-commit-clear] [--build-context-dir BUILD_CONTEXT_DIR] [--build-git-repo-secret BUILD_GIT_REPO_SECRET] [--build-git-repo-secret-clear] [--build-source BUILD_SOURCE] [--build-strategy BUILD_STRATEGY] [--build-timeout BUILD_TIMEOUT] [--code-bundle CODE_BUNDLE] [--code-bundle-secret CODE_BUNDLE_SECRET] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-configmap-rm ENV_FROM_CONFIGMAP_RM] [--env-from-secret ENV_FROM_SECRET] [--env-from-secret-rm ENV_FROM_SECRET_RM] [--env-rm ENV_RM] [--force] [--inline-code INLINE_CODE] [--main MAIN] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--no-wait] [--output OUTPUT] [--quiet] [--rebuild] [--runtime RUNTIME] [--runtime-secret RUNTIME_SECRET] [--runtime-type RUNTIME_TYPE] [--wait] [--wait-timeout WAIT_TIMEOUT]
+ibmcloud ce function update --name FUNCTION_NAME [--build-clear] [--build-commit BUILD_COMMIT] [--build-commit-clear] [--build-context-dir BUILD_CONTEXT_DIR] [--build-git-repo-secret BUILD_GIT_REPO_SECRET] [--build-git-repo-secret-clear] [--build-source BUILD_SOURCE] [--build-timeout BUILD_TIMEOUT] [--code-bundle CODE_BUNDLE] [--code-bundle-secret CODE_BUNDLE_SECRET] [--cpu CPU] [--env ENV] [--env-from-configmap ENV_FROM_CONFIGMAP] [--env-from-configmap-rm ENV_FROM_CONFIGMAP_RM] [--env-from-secret ENV_FROM_SECRET] [--env-from-secret-rm ENV_FROM_SECRET_RM] [--env-rm ENV_RM] [--force] [--inline-code INLINE_CODE] [--main MAIN] [--maxexecutiontime MAXEXECUTIONTIME] [--memory MEMORY] [--no-wait] [--output OUTPUT] [--quiet] [--rebuild] [--runtime RUNTIME] [--wait] [--wait-timeout WAIT_TIMEOUT]
 ```
 {: pre}
 
@@ -2845,7 +2836,7 @@ ibmcloud ce function update --name FUNCTION_NAME [--build-clear] [--build-commit
 :   The directory in the repository that contains the source code for your function. This option is allowed only if the `--build-source` option is set. This value is *optional*. 
 
 `--build-git-repo-secret`, `--git-repo-secret`, `--bgrs`, `--grs`, `--repo`
-:   The name of the SSH secret, which contains the credentials to access the private repository that contains the source code to build your image. This value is *optional*. 
+:   The name of the SSH secret that contains the credentials to access the private repository that contains the source code to build your image. This value is *optional*. 
 
 `--build-git-repo-secret-clear`, `--git-repo-secret-clear`, `--bgrsc`, `--grsc`
 :   Clear the SSH secret. This option is allowed only if your function currently has an associated build. This value is *optional*. The default value is `false`.
@@ -2853,14 +2844,11 @@ ibmcloud ce function update --name FUNCTION_NAME [--build-clear] [--build-commit
 `--build-source`, `--source`, `--bsrc`, `--src`
 :   The URL of the Git repository or the path to local source that contains your source code; for example `https://github.com/IBM/CodeEngine` or `.`. This value is *optional*. 
 
-`--build-strategy`, `--strategy`, `--bstr`, `--str`
-:   The strategy to use for building the image. This option is required only if a build strategy must be chosen for a custom runtime. See [Runtimes](/docs/codeengine?topic=codeengine-fun-runtime). This value is *optional*. 
-
 `--build-timeout`, `--bto`
 :   The amount of time, in seconds, that can pass before the build must succeed or fail. This value is *optional*. The default value is `600`.
 
 `--code-bundle`, `--cb`
-:   The name of the code-bundle image that is used for build push of the function. The format is 'REGISTRY/NAMESPACE/REPOSITORY:TAG' where 'REGISTRY' and 'TAG' are optional. If 'REGISTRY' is not specified, the default is 'docker.io'. If 'TAG' is not specified, the default is 'latest'. The code-bundle option is required if the 'build-source' option is not specified. This value is *optional*. 
+:   The name of the `code-bundle` image to use for this function. When `build-source` is specified, this value is the path to the output image generated by the build push. When `build-source` is not specified, this value is the path to the existing code-bundle image. The format is `REGISTRY/NAMESPACE/REPOSITORY:TAG` where `REGISTRY` and `TAG` are optional. If `REGISTRY` is not specified, the default is `docker.io`. If `TAG` is not specified, the default is `latest`. This value is *optional*. 
 
 `--code-bundle-secret`, `--cs`, `--cbs`
 :   The name of the registry secret that is used to authenticate with a private registry. You can add the registry secret by running the `registry create` command. This value is *optional*. 
@@ -2924,13 +2912,7 @@ ibmcloud ce function update --name FUNCTION_NAME [--build-clear] [--build-commit
 :   Rebuild the image from source. The rebuild option is allowed only if your function currently has an associated build. This value is *optional*. The default value is `false`.
 
 `--runtime`, `-r`
-:   The runtime to use for the function. This value is either a managed runtime identifier or an image reference URL. See [Runtimes](/docs/codeengine?topic=codeengine-fun-runtime). This value is *optional*. 
-
-`--runtime-secret`, `--rs`
-:   The name of the registry secret that is used to authenticate with a private registry to pull a custom runtime. Run `ibmcloud ce registry create` to create a registry secret. This value is *optional*. 
-
-`--runtime-type`, `--rt`
-:   The type of runtime to use. Valid values are `managed` and `custom`. See [Runtimes](/docs/codeengine?topic=codeengine-fun-runtime). This value is *optional*. The default value is `managed`.
+:   The runtime to use for the function. To find supported runtimes for this region, run `ibmcloud ce function runtimes`. See [Runtimes](/docs/codeengine?topic=codeengine-fun-runtime). This value is *optional*. 
 
 `--wait`, `-w`
 :   Wait for the build run to complete. This value is *optional*. The default value is `true`.
@@ -5885,7 +5867,7 @@ newapp-mytest-00002-deployment-7c87cfbf66-xnwkp/user-container:
 ## Secret commands  
 {: #cli-secret}  
 
-A secret provides a method to include sensitive configuration information, such as passwords or SSH keys, to your deployment. By referencing values from your secret, you can decouple sensitive information from your deployment to keep your app or job portable. Anyone who is authorized to your project can also view your secrets; be sure that you know that the secret information can be shared with those users. Secrets contain information in key-value pairs.
+A secret provides a method to include sensitive configuration information, such as passwords or SSH keys, to your deployment. By referencing values from your secret, you can decouple sensitive information from your deployment to keep your app, function, or job portable. Anyone who is authorized to your project can also view your secrets; be sure that you know that the secret information can be shared with those users. Secrets contain information in key-value pairs.
 {: shortdesc}
 
 You must be within the context of a [project](#cli-project) before you use `secret` commands.
