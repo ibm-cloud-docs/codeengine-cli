@@ -1,12 +1,12 @@
 ---
 
 copyright:
-  years: 2023
-lastupdated: "2023-11-29"
+  years: 2024
+lastupdated: "2024-01-23"
 
 keywords: cli for code engine, command-line interface for code engine, cli commands for code engine, reference for code engine cli, ibmcloud ce, ibmcloud codeengine, commands, code engine cli, apps, jobs, source code, configmap, build repository, build, secret, image repository, registry, example, example output
 
-subcollection: codeengine
+subcollection: codeengine-cli
 
 ---
 
@@ -61,7 +61,7 @@ ibmcloud ce application bind --name APP_NAME (--service-instance SI_NAME | --ser
  {: #cmd-options-application-bind} 
 
 `--name`, `-n`
-:   The name of the application to bind. This value is *required*. 
+:   The name of the application to bind. This value is *required*.  
 
 `--no-wait`, `--nw`
 :   Bind the service instance and do not wait for the service binding to be ready. If you specify the `no-wait` option, the service binding creation is started and the command exits without waiting for it to complete. Use the `app get` command to check the application bind status. This value is *optional*. The default value is `false`.
@@ -3330,9 +3330,11 @@ Resource Allocation:
     Memory:  4G
 
 Runtime:
-    Array Indices:       0
-    Max Execution Time:  7200
-    Retry Limit:         3
+    Mode:                  task
+    Array Indices:         0
+    Array Size:            1
+    Max Execution Time:    7200
+    Retry Limit:           3
 ```
 {: screen}  
   
@@ -3803,11 +3805,6 @@ Resource Allocation:
     CPU:                1
     Ephemeral Storage:  400M
     Memory:             4G
-
-Runtime:
-    Array Indices:       1-5
-    Max Execution Time:  7200
-    Retry Limit:         3
 
 Runtime:
     Mode:                  task
